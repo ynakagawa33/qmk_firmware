@@ -11,6 +11,10 @@
           <in>config.h</in>
           <in>keymap.c</in>
         </df>
+        <df name="sakura_1">
+          <in>config.h</in>
+          <in>keymap.c</in>
+        </df>
       </df>
       <df name="lib">
         <in>glcdfont.c</in>
