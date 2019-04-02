@@ -100,7 +100,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB,  KC_Q,    KC_W,   KC_E,          KC_R,    KC_T,                             KC_Y,           KC_U,   KC_I,    KC_O,    KC_P,    KC_EQL,  \
     ADJUST,  KC_A,    KC_S,   KC_D,          KC_F,    KC_G,                             KC_H,           KC_J,   KC_K,    KC_L,    KC_SCLN, KC_QUOT, \
     KC_LSFT, KC_Z,    KC_X,   KC_C,          KC_V,    KC_B,           KC_LBRC, KC_RBRC, KC_N,           KC_M,   KC_COMM, KC_DOT,  KC_SLSH, KC_MINS, \
-    KC_LCTL, KC_LGUI, KC_F12, LALT_T(KC_F5), KC_BSPC, RCTL_T(KC_SPC), CALC,    CUSL,    RSFT_T(KC_ENT), KC_DEL, KC_APP,  KC_UP,  KC_DOWN, KC_RGHT  \
+    KC_LCTL, KC_LGUI, KC_F12, LALT_T(KC_F5), KC_BSPC, LCTL_T(KC_SPC), CALC,    CUSL,    LSFT_T(KC_ENT), KC_DEL, KC_APP,  KC_UP,  KC_DOWN, KC_RGHT  \
   ),
   /* Cursol
    * ,-----------------------------------------.             ,-----------------------------------------.
@@ -108,19 +108,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * |------+------+------+------+------+------|             |------+------+------+------+------+------|
    * |      |  F1  |  F2  | PgUp |  F4  |  F5  |             |  F6  |  F7  |  Up  |  F9  | F10  |PrtSc |
    * |------+------+------+------+------+------|             |------+------+------+------+------+------|
-   * |      |  F3  | Home | PgDw | End  |      |             |      | Left | Down |Right | F8   | F11  |
+   * |      |  F3  | Home | PgDw | End  |  F3  |             |  F8  | Left | Down |Right | F8   | F11  |
    * |------+------+------+------+------+------+------+------+------+------+------+------+------+------|
-   * |      |      |      |      |      |      |      |      |      | OSL  | OSDw | OSR  |      | F12  |
+   * |      |      | CLft |      | CRgt |      |  (   |  )   |      | OSL  | OSDw | OSR  |      | F12  |
    * |------+------+------+------+------+------+------+------+------+------+------+------+------+------|
    * |      |      |      |      |      |      |      |      |      |      |      |      |      |      |
    * `-------------------------------------------------------------------------------------------------'
    */
   [_LOWER] = LAYOUT( \
-    KC_GRV,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                       KC_F6,   KC_F7,        KC_F8,        KC_F9,        KC_F10,  KC_PSCR, \
-    KC_GRV,  KC_F1,   KC_F2,   KC_PGUP, KC_F4,   KC_F5,                       KC_F6,   KC_F7,        KC_UP,        KC_F9,        KC_F10,  KC_PSCR, \
-    _______, KC_F3,   KC_HOME, KC_PGDN, KC_END,  _______,                     _______, KC_LEFT,      KC_DOWN,      KC_RGHT,      KC_F8,   KC_F11,  \
-    _______, _______, _______, _______, _______, _______, KC_LPRN,   KC_RPRN, _______, LCA(KC_LEFT), LCA(KC_DOWN), LCA(KC_RGHT), _______, _______, \
-    _______, _______, _______, _______, _______, LCTL(KC_SPC), _______, _______, _______, _______,      _______,      _______,      _______, _______  \
+    KC_GRV,  KC_F1,   KC_F2,      KC_F3,   KC_F4,      KC_F5,                          KC_F6,   KC_F7,        KC_F8,        KC_F9,        KC_F10,  KC_PSCR, \
+    KC_GRV,  KC_F1,   KC_F2,      KC_PGUP, KC_F4,      KC_F5,                          KC_F6,   KC_F7,        KC_UP,        KC_F9,        KC_F10,  KC_PSCR, \
+    _______, KC_F3,   KC_HOME,    KC_PGDN, KC_END,     _______,                        _______, KC_LEFT,      KC_DOWN,      KC_RGHT,      KC_F8,   KC_F11,  \
+    _______, _______, C(KC_LEFT), _______, C(KC_RGHT), _______,      KC_LPRN, KC_RPRN, _______, LCA(KC_LEFT), LCA(KC_DOWN), LCA(KC_RGHT), _______, _______, \
+    _______, _______, _______,    _______, _______,    LCTL(KC_SPC), _______, _______, _______, _______,      _______,      _______,      _______, _______  \
   ),
   /* Calculater
    * 
