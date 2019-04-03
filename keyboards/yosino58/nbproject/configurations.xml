@@ -9,7 +9,7 @@
         <df name="sakura">
           <in>keymap.c</in>
         </df>
-        <df name="sakura_1">
+        <df name="swan">
           <in>keymap.c</in>
         </df>
       </df>
@@ -75,7 +75,7 @@
       </item>
       <item path="keymaps/sakura/keymap.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="keymaps/sakura_1/keymap.c" ex="false" tool="0" flavor2="0">
+      <item path="keymaps/swan/keymap.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="lib/glcdfont.c" ex="false" tool="0" flavor2="0">
       </item>
