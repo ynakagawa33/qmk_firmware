@@ -28,11 +28,30 @@ extern keymap_config_t keymap_config;
 #define _ADJUST 3
 
 enum custom_keycodes {
-  QWERTY = SAFE_RANGE,
+  AD_WO_L = SAFE_RANGE, /* Start advertising without whitelist  */
+  BLE_DIS,              /* Disable BLE HID sending              */
+  BLE_EN,               /* Enable BLE HID sending               */
+  USB_DIS,              /* Disable USB HID sending              */
+  USB_EN,               /* Enable USB HID sending               */
+  DELBNDS,              /* Delete all bonding                   */
+  ADV_ID0,              /* Start advertising to PeerID 0        */
+  ADV_ID1,              /* Start advertising to PeerID 1        */
+  ADV_ID2,              /* Start advertising to PeerID 2        */
+  ADV_ID3,              /* Start advertising to PeerID 3        */
+  ADV_ID4,              /* Start advertising to PeerID 4        */
+  BATT_LV,              /* Display battery level in milli volts */
+  DEL_ID0,              /* Delete bonding of PeerID 0           */
+  DEL_ID1,              /* Delete bonding of PeerID 1           */
+  DEL_ID2,              /* Delete bonding of PeerID 2           */
+  DEL_ID3,              /* Delete bonding of PeerID 3           */
+  DEL_ID4,              /* Delete bonding of PeerID 4           */
+  ENT_DFU,              /* Start bootloader                     */
+  ENT_SLP,              /* Deep sleep mode                      */
+  QWERTY,
   LOWER,
   RAISE,
   ADJUST,
-  RGBRST
+  //RGBRST
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -105,23 +124,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /*   ADJUST
  * ,-----------------------------------------.                                  ,-----------------------------------------.
- * |RESET |      |      |      |      |      |                                  | Mute | Vol+ | Play |      |      |      |
+ * |RESET |AD_WOL|ADVID1|ADVID2|ADVID3|ADVID4|                                  | Mute | Vol+ | Play |      |      |      |
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
- * |      |      |      | PSCR | SLCK | Pause|                                  | Prev | Vol- | Next |      |      |      |
+ * |ENTSLP|USBDIS|BLEDIS| PSCR | SLCK | Pause|                                  | Prev | Vol- | Next |      |      |      |
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
- * |      |      |      |Insert| Home |PageUP|                                  |      |      |RGB ON| HUE+ | SAT+ | VAL+ |
+ * |ENTDFU|USB_EN|BLE_EN|Insert| Home |PageUP|                                  |      |      |RGB ON| HUE+ | SAT+ | VAL+ |
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
- * |      |      |      |  Del | End  |PageDN|-------.-------.  ,---------------|      |RGB Re| MODE | HUE- | SAT- | VAL- |
+ * |BATTLV|DELID1|      |  Del | End  |PageDN|-------.-------.  ,---------------|      |RGB Re| MODE | HUE- | SAT- | VAL- |
  * `-----------------------------------------/       /       /   \       \       \----------------------------------------'
  *                          |      |ADJUST| /-------/ Space /     \ Enter \-------\  |      |      |
  *                          |      |      |/       /       /       \       \       \ |      |      |
  *                          `-----------------------------'         '------------------------------'
  */
  [_ADJUST] = LAYOUT( \
-  RESET,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                     KC_MUTE, KC_VOLU, KC_MPLY, XXXXXXX, XXXXXXX, XXXXXXX, \
-  XXXXXXX, XXXXXXX, XXXXXXX, KC_PSCR, KC_SLCK, KC_PAUS,                                     KC_MPRV, KC_VOLD, KC_MNXT, XXXXXXX, XXXXXXX, XXXXXXX, \
-  XXXXXXX, XXXXXXX, XXXXXXX, KC_INS,  KC_HOME, KC_PGUP,                                     XXXXXXX, XXXXXXX, RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, \
-  XXXXXXX, XXXXXXX, XXXXXXX, KC_DEL,  KC_END,  KC_PGDN, XXXXXXX, _______, _______, XXXXXXX, XXXXXXX, RGBRST,  RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, \
+  RESET,   AD_WO_L, ADV_ID1, ADV_ID2, ADV_ID3, ADV_ID4,                                     KC_MUTE, KC_VOLU, KC_MPLY, XXXXXXX, XXXXXXX, XXXXXXX, \
+  ENT_SLP, USB_DIS, BLE_DIS, KC_PSCR, KC_SLCK, KC_PAUS,                                     KC_MPRV, KC_VOLD, KC_MNXT, XXXXXXX, XXXXXXX, XXXXXXX, \
+  ENT_DFU, USB_EN,  BLE_EN,  KC_INS,  KC_HOME, KC_PGUP,                                     XXXXXXX, XXXXXXX, RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, \
+  BATT_LV, DEL_ID1, XXXXXXX, KC_DEL,  KC_END,  KC_PGDN, XXXXXXX, _______, _______, XXXXXXX, XXXXXXX, RGBRST,  RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, \
                                       XXXXXXX, _______, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX \
   ) 
 };
@@ -283,7 +302,108 @@ void update_tri_layer_RGB(uint8_t layer1, uint8_t layer2, uint8_t layer3) {
 // #endif//SSD1306OLED
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  char str[16];
+
   switch (keycode) {
+    case DELBNDS:
+      if (record->event.pressed) {
+        delete_bonds();
+      }
+      return false;
+    case AD_WO_L:
+      if (record->event.pressed) {
+        restart_advertising_wo_whitelist();
+      }
+      return false;
+    case USB_EN:
+      if (record->event.pressed) {
+        set_usb_enabled(true);
+      }
+
+      return false;
+      break;
+    case USB_DIS:
+      if (record->event.pressed) {
+        set_usb_enabled(false);
+      }
+      return false;
+      break;
+    case BLE_EN:
+      if (record->event.pressed) {
+        set_ble_enabled(true);
+      }
+
+      return false;
+      break;
+    case BLE_DIS:
+      if (record->event.pressed) {
+        set_ble_enabled(false);
+      }
+      return false;
+      break;
+    case ADV_ID0:
+      if (record->event.pressed) {
+        restart_advertising_id(0);
+      }
+      return false;
+    case ADV_ID1:
+      if (record->event.pressed) {
+        restart_advertising_id(1);
+      }
+      return false;
+    case ADV_ID2:
+      if (record->event.pressed) {
+        restart_advertising_id(2);
+      }
+
+      return false;
+    case ADV_ID3:
+      if (record->event.pressed) {
+        restart_advertising_id(3);
+      }
+      return false;
+    case ADV_ID4:
+      if (record->event.pressed) {
+        restart_advertising_id(4);
+      }
+      return false;
+    case DEL_ID0:
+      if (record->event.pressed) {
+        delete_bond_id(0);
+      }
+
+      return false;
+    case DEL_ID1:
+      if (record->event.pressed) {
+        delete_bond_id(1);
+      }
+      return false;
+    case DEL_ID2:
+      if (record->event.pressed) {
+        delete_bond_id(2);
+      }
+      return false;
+    case DEL_ID3:
+     if (record->event.pressed) {
+        delete_bond_id(3);
+      }
+      return false;
+    case BATT_LV:
+      if (record->event.pressed) {
+        sprintf(str, "%4dmV", get_vcc());
+        send_string(str);
+      }
+      return false;
+    case ENT_DFU:
+     if (record->event.pressed) {
+        bootloader_jump();
+      }
+      return false;
+    case ENT_SLP:
+      if (!record->event.pressed) {
+        sleep_mode_enter();
+      }
+      return false;
     case QWERTY:
       if (record->event.pressed) {
         persistent_default_layer_set(1UL<<_QWERTY);
