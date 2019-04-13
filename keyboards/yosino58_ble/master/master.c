@@ -9,6 +9,12 @@
   #include "ssd1306.h"
 #endif
 
+#ifdef RGBLIGHT_ENABLE
+//Following line allows macro to read current RGB settings
+rgblight_config_t rgblight_config;
+int RGB_current_mode;
+#endif
+
 void matrix_init_user(void) {
   set_usb_enabled(true);
   #ifdef RGBLIGHT_ENABLE
