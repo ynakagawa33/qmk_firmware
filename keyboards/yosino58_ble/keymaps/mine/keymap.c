@@ -88,7 +88,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
  * |LCTRL |      |      |      |      |      |-------.-------.  ,---------------|PageDN|   ←  |   ↓  |   →  | Pause|  F12 |
  * `-----------------------------------------/       /       /   \       \       \----------------------------------------'
- *                          |      |      | /-------/ LOWER /     \       \-------\  | RGUI | RAlt |
+ *                          |DELBND|AD_WOL| /-------/ LOWER /     \       \-------\  | RGUI | RAlt |
  *                          |      |      |/       /       /       \       \       \ |      |      |
  *                          `-----------------------------'         '------------------------------'
  */
@@ -97,29 +97,29 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   _______, KC_1,    KC_2,    KC_3,    KC_4,     KC_5,                                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, \
   _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,                                      KC_PGUP, KC_HOME, KC_UP,   KC_END,  KC_PSCR, KC_EQL, \
   _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX,  _______, XXXXXXX, XXXXXXX, KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, KC_PAUS, KC_F12, \
-                                      XXXXXXX,  XXXXXXX, XXXXXXX,                    XXXXXXX, KC_RGUI, KC_RALT\
+                                      DELBNDS,  AD_WO_L, XXXXXXX,                    XXXXXXX, KC_RGUI, KC_RALT\
 
   ),
 
 /* RAISE
  * ,-----------------------------------------.                                  ,-----------------------------------------.
- * |DELBND|AD_WOL|      |      |      |      |                                  |      |      |      |      |      |      |
+ * |      |      |      |      |      |      |                                  |      |      |      |      |      |      |
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
  * |      |   !  |   @  |   #  |   $  |   %  |                                  |   ^  |   &  |   *  |   (  |   )  |  _   |
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
- * |LShift|      | MACL0| MACL1| MACL2|      |                                  | MWHD | MWHL | MSU  | MWHR |      |  +   |
+ * |LShift|      | MBTNR| MBTNM| MBTNL|      |                                  | MWHD | MWHL | MSU  | MWHR |      |  +   |
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
- * |LCTRL |      | MBTNR| MBTNM| MBTNL|      |-------.-------.  ,---------------| MWHU | MSL  | MSD  | MSR  |      |      |
+ * |LCTRL |      | MACL0| MACL1| MACL2|      |-------.-------.  ,---------------| MWHU | MSL  | MSD  | MSR  |      |      |
  * `-----------------------------------------/       /       /   \       \       \----------------------------------------'
  *                          | LAlt | LGUI | /-------/       /     \ RAISE \-------\  |      |      |
  *                          |      |      |/ Space /       /       \       \       \ |      |      |
  *                          `-----------------------------'         '------------------------------'
  */
  [_RAISE] = LAYOUT( \
-  DELBNDS, AD_WO_L, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,                                     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
+  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,                                     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
   XXXXXXX, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,   KC_PERC,                                     KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_UNDS, \
-  _______, XXXXXXX, KC_ACL0, KC_ACL1, KC_ACL2,  XXXXXXX,                                     KC_WH_D, KC_WH_L, KC_MS_U, KC_WH_R, XXXXXXX, KC_PLUS, \
-  _______, XXXXXXX, KC_BTN2, KC_BTN3, KC_BTN1,  XXXXXXX, XXXXXXX, XXXXXXX, _______, XXXXXXX, KC_WH_U, KC_MS_L, KC_MS_D, KC_MS_R, XXXXXXX, XXXXXXX, \
+  _______, XXXXXXX, KC_BTN2, KC_BTN3, KC_BTN1,  XXXXXXX,                                     KC_WH_D, KC_WH_L, KC_MS_U, KC_WH_R, XXXXXXX, KC_PLUS, \
+  _______, XXXXXXX, KC_ACL0, KC_ACL1, KC_ACL2,  XXXXXXX, XXXXXXX, XXXXXXX, _______, XXXXXXX, KC_WH_U, KC_MS_L, KC_MS_D, KC_MS_R, XXXXXXX, XXXXXXX, \
                                       _______,  _______, _______,                   XXXXXXX, XXXXXXX, XXXXXXX \
   ),
 
