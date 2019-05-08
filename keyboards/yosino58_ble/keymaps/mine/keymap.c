@@ -52,16 +52,10 @@ enum custom_keycodes {
   LOWER,
   RAISE,
   ADJUST,
-  RGBRST
+  RGBRST,
+  CK_EMHL,
+  CK_KHKR
 };
-
-enum user_macro {
-  UM_EMHL,
-  UM_KHKR
-};
-
-#define M_EMHL MACROTAP(UM_EMHL)
-#define M_KHKR MACROTAP(UM_KHKR)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* QWERTY
@@ -83,7 +77,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TAB,   KC_Q, KC_W, KC_E, KC_R,    KC_T,                                       KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,    KC_EQL,  \
   KC_LSFT,  KC_A, KC_S, KC_D, KC_F,    KC_G,                                       KC_H,    KC_J,    KC_K,    KC_L,   KC_SCLN, KC_QUOT, \
   KC_LCTRL, KC_Z, KC_X, KC_C, KC_V,    KC_B,   KC_LBRC, KC_DEL, KC_BSPC, KC_RBRC,  KC_N,    KC_M,    KC_COMM, KC_DOT, KC_SLSH, KC_BSLS, \
-                              KC_LALT, M_EMHL, KC_SPC,                     KC_ENT, M_KHKR,  KC_RGUI\
+                              KC_LALT, CK_EMHL, KC_SPC,                     KC_ENT, CK_KHKR,  KC_RGUI\
   ),
 
 /* LOWER
@@ -294,6 +288,11 @@ void iota_gfx_task_user(void) {
 }
 #endif//SSD1306OLED
 
+static bool lower_pressed = false;
+static uint16_t lower_pressed_time = 0;
+static bool raise_pressed = false;
+static uint16_t raise_pressed_time = 0;
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   char str[16];
 
@@ -444,18 +443,42 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
       #endif
       break;
+    case CK_EMHL:
+      if (record->event.pressed) {
+        lower_pressed = true;
+        lower_pressed_time = record->event.time;
+        layer_on(_LOWER);
+      } else {
+        layer_off(_LOWER);
+
+        if (lower_pressed && (TIMER_DIFF_16(record->event.time, lower_pressed_time) < TAPPING_TERM)) {
+          register_code(KC_LANG2);
+          register_code(KC_MHEN);
+          unregister_code(KC_MHEN);
+          unregister_code(KC_LANG2);
+        }
+
+        lower_pressed = false;
+      }
+      return false;
+    case CK_KHKR:
+      if (record->event.pressed) {
+        raise_pressed = true;
+        raise_pressed_time = record->event.time;
+        layer_on(_RAISE);
+      } else {
+        layer_off(_RAISE);
+        
+        if (raise_pressed && (TIMER_DIFF_16(record->event.time, raise_pressed_time) < TAPPING_TERM)) {
+          register_code(KC_LANG1);
+          register_code(KC_HENK);
+          unregister_code(KC_HENK);
+          unregister_code(KC_LANG1);
+        }
+
+        raise_pressed = false;
+      }
+      return false;
   }
   return true;
-}
-
-const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
-{
-    switch(id) {
-      case UM_EMHL:
-        return MACRO_TAP_HOLD_LAYER(record, MACRO(TYPE(KC_MHEN), TYPE(KC_LANG2), END), _LOWER);
-      case UM_KHKR:
-        return MACRO_TAP_HOLD_LAYER(record, MACRO(TYPE(KC_HENK), TYPE(KC_LANG1), END), _RAISE);
-    }
-
-    return MACRO_NONE;
 }
