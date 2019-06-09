@@ -31,9 +31,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define SSD1306OLED
 // #define SSD1306_128X64
 
-#define TAPPING_FORCE_HOLD
-#define TAPPING_TERM 200
-
 #undef RGBLED_NUM
 #define RGBLIGHT_ANIMATIONS
 #define RGBLED_NUM 32
@@ -48,3 +45,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MOUSEKEY_TIME_TO_MAX       30
 #define MOUSEKEY_WHEEL_MAX_SPEED   1
 #define MOUSEKEY_WHEEL_TIME_TO_MAX 40
+
+#define TAPPING_TERM 180
+#define PERMISSIVE_HOLD
