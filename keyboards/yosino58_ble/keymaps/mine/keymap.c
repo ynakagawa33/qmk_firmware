@@ -58,8 +58,8 @@ enum custom_keycodes {
   CK_EMHS,
   CK_SPCL,
   CK_ENTA,
-  CK_LBRCS,
-  CK_RBRCC
+  CK_LBRCA,
+  CK_RBRCG,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -69,20 +69,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
  * | Tab  |   Q  |   W  |   E  |   R  |   T  |                                  |   Y  |   U  |   I  |   O  |   P  |  =   |
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
- * |LBRCS |   A  |   S  |   D  |   F  |   G  |                                  |   H  |   J  |   K  |   L  |   ;  |  '   |
+ * |LShift|   A  |   S  |   D  |   F  |   G  |                                  |   H  |   J  |   K  |   L  |   ;  |  '   |
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
- * |RBRCC |   Z  |   X  |   C  |   V  |   B  |-------.-------.  ,---------------|   N  |   M  |   ,  |   .  |   /  |  \   |
+ * |LCtrl |   Z  |   X  |   C  |   V  |   B  |-------.-------.  ,---------------|   N  |   M  |   ,  |   .  |   /  |  \   |
  * `-----------------------------------------/       /       /   \       \       \----------------------------------------'
- *                          | LAlt | LGUI | /-------/  SPCL /     \  ENTA \-------\  | Bksp | LCAG |
+ *                          |LBRCA |RBRCG | /-------/  SPCL /     \  ENTA \-------\  | Bksp | LCAG |
  *                          |      |      |/  EMHS /       /       \       \  KHKR \ |      |      |
  *                          `-----------------------------'         '------------------------------'
  */
  [_QWERTY] = LAYOUT( \
   XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
   KC_TAB,   KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                                        KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_EQL,  \
-  CK_LBRCS, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                                        KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, \
-  CK_RBRCC, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    XXXXXXX, CK_SPCL, CK_ENTA, XXXXXXX, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_BSLS, \
-                              KC_LALT, KC_LGUI, CK_EMHS,                   CK_KHKR, KC_BSPC, LCAG(KC_NO)\
+  KC_LSFT,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                                        KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, \
+  KC_LCTL,  KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    XXXXXXX, CK_SPCL, CK_ENTA, XXXXXXX, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_BSLS, \
+                              CK_LBRCA,CK_RBRCG,CK_EMHS,                   CK_KHKR, KC_BSPC, LCAG(KC_NO)\
   ),
 
 /* LOWER
@@ -91,9 +91,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
  * | ESC  |   /  |   -  |   7  |   8  |   9  |                                  |PageUP| Home |   ↑  | End  | PSCR |      |
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
- * |LBRCS |   *  |   +  |   4  |   5  |   6  |                                  |PageDN|   ←  |   ↓  |   →  | Pause|Insert|
+ * |LShift|   *  |   +  |   4  |   5  |   6  |                                  |PageDN|   ←  |   ↓  |   →  | Pause|Insert|
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
- * |RBRCC |   .  |   0  |   1  |   2  |   3  |-------.-------.  ,---------------|      |      |      |      |      |      |
+ * |LCtrl |   .  |   0  |   1  |   2  |   3  |-------.-------.  ,---------------|      |      |      |      |      |      |
  * `-----------------------------------------/       /       /   \       \       \----------------------------------------'
  *                          |DELBND|AD_WOL| /-------/  SPCL /     \ Enter \-------\  | RAlt | RGUI |
  *                          |      |      |/  EMHS /       /       \       \       \ |      |      |
@@ -113,11 +113,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
  * |      |      | MACL0| MACL1| MACL2|      |                                  | MWHU | MWHL | MSU  | MWHR |      |      |
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
- * |LBRCS |      | MBTNR| MBTNM| MBTNL|      |                                  | MWHD | MSL  | MSD  | MSR  |      |      |
+ * |LShift|      | MBTNR| MBTNM| MBTNL|      |                                  | MWHD | MSL  | MSD  | MSR  |      |      |
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
- * |RBRCC |   Z  |   X  |   C  |   V  |      |-------.-------.  ,---------------|      |      |      |      |      |      |
+ * |LCtrl |   Z  |   X  |   C  |   V  |      |-------.-------.  ,---------------|      |      |      |      |      |      |
  * `-----------------------------------------/       /       /   \       \       \----------------------------------------'
- *                          | LAlt | LGUI | /-------/ Space /     \       \-------\  |      |      |
+ *                          |LBRCA |RBRCG | /-------/ Space /     \       \-------\  |      |      |
  *                          |      |      |/  EMHS /       /       \       \  KHKR \ |      |      |
  *                          `-----------------------------'         '------------------------------'
  */
@@ -137,9 +137,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
  * |   `  |   1  |   2  |   3  |   4  |   5  |                                  |   6  |   7  |   8  |   9  |   0  |  -   |
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
- * |RBRCC |   Z  |   X  |   C  |   V  | Bksp |-------.-------.  ,---------------|RGB ON| MODE | Prev | Play | Next | F12  |
+ * |LCtrl |   Z  |   X  |   C  |   V  | Bksp |-------.-------.  ,---------------|RGB ON| MODE |      |   .  |      | F12  |
  * `-----------------------------------------/       /       /   \       \       \----------------------------------------'
- *                          | LAlt | LGUI | /-------/ Space /     \  ENTA \-------\  |      |      |
+ *                          |LBRCA |RBRCG | /-------/ Space /     \  ENTA \-------\  |      |      |
  *                          |      |      |/  EMHS /       /       \       \       \ |      |      |
  *                          `-----------------------------'         '------------------------------'
  */
@@ -147,7 +147,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
   KC_ESC,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                                       KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11, \
   KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                                        KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, \
-  _______, _______, _______, _______, _______, KC_BSPC, XXXXXXX, KC_SPC,  _______, XXXXXXX, RGB_TOG, RGB_MOD, KC_MPRV, KC_MPLY, KC_MNXT, KC_F12, \
+  _______, _______, _______, _______, _______, KC_BSPC, XXXXXXX, KC_SPC,  _______, XXXXXXX, RGB_TOG, RGB_MOD, XXXXXXX, KC_DOT,  XXXXXXX, KC_F12, \
                                       _______, _______, _______,                   XXXXXXX, XXXXXXX, XXXXXXX \
   )
 };
@@ -298,10 +298,12 @@ static bool raise_pressed = false;
 static uint16_t raise_pressed_time = 0;
 static bool adjust_pressed = false;
 static uint16_t adjust_pressed_time = 0;
-static bool ctrl_pressed = false;
-static uint16_t ctrl_pressed_time = 0;
 static bool shift_pressed = false;
 static uint16_t shift_pressed_time = 0;
+static bool alt_pressed = false;
+static uint16_t alt_pressed_time = 0;
+static bool gui_pressed = false;
+static uint16_t gui_pressed_time = 0;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   char str[16];
@@ -537,36 +539,36 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         adjust_pressed = false;
       }
       return false;
-      case CK_LBRCS:
+      case CK_LBRCA:
       if (record->event.pressed) {
-        shift_pressed = true;
-        shift_pressed_time = record->event.time;
-        register_code(KC_LSFT);  
+        alt_pressed = true;
+        alt_pressed_time = record->event.time;
+        register_code(KC_LALT);  
       } else {
-        unregister_code(KC_LSFT);
+        unregister_code(KC_LALT);
         
-        if (shift_pressed && (TIMER_DIFF_16(record->event.time, shift_pressed_time) < TAPPING_TERM)) {
+        if (alt_pressed && (TIMER_DIFF_16(record->event.time, alt_pressed_time) < TAPPING_TERM)) {
           register_code(KC_LBRC);
           unregister_code(KC_LBRC);
         }
 
-        shift_pressed = false;
+        alt_pressed = false;
       }
       return false;
-      case CK_RBRCC:
+      case CK_RBRCG:
       if (record->event.pressed) {
-        ctrl_pressed = true;
-        ctrl_pressed_time = record->event.time;
-        register_code(KC_LCTRL);  
+        gui_pressed = true;
+        gui_pressed_time = record->event.time;
+        register_code(KC_LGUI);  
       } else {
-        unregister_code(KC_LCTRL);
+        unregister_code(KC_LGUI);
         
-        if (ctrl_pressed && (TIMER_DIFF_16(record->event.time, ctrl_pressed_time) < TAPPING_TERM)) {
+        if (gui_pressed && (TIMER_DIFF_16(record->event.time, gui_pressed_time) < TAPPING_TERM)) {
           register_code(KC_RBRC);
           unregister_code(KC_RBRC);
         }
 
-        ctrl_pressed = false;
+        gui_pressed = false;
       }
       return false;
   }
