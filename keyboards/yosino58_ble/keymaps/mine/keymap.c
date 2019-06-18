@@ -53,13 +53,8 @@ enum custom_keycodes {
   RAISE,
   ADJUST,
   RGBRST,
-  CK_EMHL,
   CK_KHKR,
-  CK_EMHS,
-  CK_SPCL,
-  CK_ENTA,
-  CK_LBRCA,
-  CK_RBRCG,
+  CK_EMHS
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -69,64 +64,64 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
  * | Tab  |   Q  |   W  |   E  |   R  |   T  |                                  |   Y  |   U  |   I  |   O  |   P  |  =   |
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
- * |LShift|   A  |   S  |   D  |   F  |   G  |                                  |   H  |   J  |   K  |   L  |   ;  |  '   |
+ * |  [   |   A  |   S  |   D  |   F  |   G  |                                  |   H  |   J  |   K  |   L  |   ;  |  '   |
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
- * |LCtrl |   Z  |   X  |   C  |   V  |   B  |-------.-------.  ,---------------|   N  |   M  |   ,  |   .  |   /  |  \   |
+ * |  ]   |   Z  |   X  |   C  |   V  |   B  |-------.-------.  ,---------------|   N  |   M  |   ,  |   .  |   /  |  \   |
  * `-----------------------------------------/       /       /   \       \       \----------------------------------------'
- *                          |LBRCA |RBRCG | /-------/  SPCL /     \  ENTA \-------\  | Bksp | LCAG |
+ *                          |      | LGUI | /-------/  SPCL /     \  ENTA \-------\  | Bksp |      |
  *                          |      |      |/  EMHS /       /       \       \  KHKR \ |      |      |
  *                          `-----------------------------'         '------------------------------'
  */
  [_QWERTY] = LAYOUT( \
-  XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
-  KC_TAB,   KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                                        KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_EQL,  \
-  KC_LSFT,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                                        KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, \
-  KC_LCTL,  KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    XXXXXXX, CK_SPCL, CK_ENTA, XXXXXXX, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_BSLS, \
-                              CK_LBRCA,CK_RBRCG,CK_EMHS,                   CK_KHKR, KC_BSPC, LCAG(KC_NO)\
+  XXXXXXX,        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                                         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
+  ALT_T(KC_TAB),  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                                                            KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    ALT_T(KC_EQL),  \
+  SFT_T(KC_LBRC), KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                                                            KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, SFT_T(KC_QUOT), \
+  CTL_T(KC_RBRC), KC_Z,    KC_X,    KC_C,    KC_V,    KC_B, XXXXXXX, LT(_LOWER, KC_SPC), LT(_ADJUST, KC_ENT), XXXXXXX, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, CTL_T(KC_BSLS), \
+                           XXXXXXX, KC_LGUI, CK_EMHS,                                                         CK_KHKR, KC_BSPC, XXXXXXX\
   ),
 
 /* LOWER
  * ,-----------------------------------------.                                  ,-----------------------------------------.
  * |      |      |      |      |      |      |                                  |      |      |      |      |      |      |
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
- * | ESC  |   /  |   -  |   7  |   8  |   9  |                                  |PageUP| Home |   ↑  | End  | PSCR |      |
+ * | LAlt |DELBND|AD_WO_|CAG(↑)|      |      |                                  |PageUP| Home |   ↑  | End  | PSCR |      |
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
- * |LShift|   *  |   +  |   4  |   5  |   6  |                                  |PageDN|   ←  |   ↓  |   →  | Pause|Insert|
+ * |LShift|      |CAG(←)|CAG(↓)|CAG(→)|      |                                  |PageDN|   ←  |   ↓  |   →  | Pause|Insert|
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
- * |LCtrl |   .  |   0  |   1  |   2  |   3  |-------.-------.  ,---------------|      |      |      |      |      |      |
+ * |LCtrl |CAG(1)|CAG(2)|CAG(3)|CAG(4)| Bksp |-------.-------.  ,---------------|      |CAG(M)|      |      |      |      |
  * `-----------------------------------------/       /       /   \       \       \----------------------------------------'
- *                          |DELBND|AD_WOL| /-------/  SPCL /     \ Enter \-------\  | RAlt | RGUI |
- *                          |      |      |/  EMHS /       /       \       \       \ |      |      |
+ *                          |      | LGUI | /-------/  SPCL /     \ ENTA  \-------\  | Bksp |      |
+ *                          |      |      |/  EMHS /       /       \       \ KHKR  \ |      |      |
  *                          `-----------------------------'         '------------------------------'
  */
  [_LOWER] = LAYOUT( \
-  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,                                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
-  KC_ESC,  KC_PSLS, KC_PMNS, KC_P7,   KC_P8,    KC_P9,                                        KC_PGUP, KC_HOME, KC_UP,   KC_END,  KC_PSCR, XXXXXXX, \
-  _______, KC_PAST, KC_PPLS, KC_P4,   KC_P5,    KC_P6,                                        KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, KC_PAUS, KC_INS, \
-  _______, KC_PDOT, KC_P0,   KC_P1,   KC_P2,    KC_P3,   XXXXXXX,  _______, KC_ENT,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
-                                      DELBNDS,  AD_WO_L, _______,                    XXXXXXX, KC_RALT, KC_RGUI\
+  XXXXXXX, XXXXXXX,    XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,                                      XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
+  KC_LALT, DELBNDS,    AD_WO_L,       LCAG(KC_UP),   XXXXXXX,       XXXXXXX,                                      KC_PGUP, KC_HOME,    KC_UP,   KC_END,  KC_PSCR, XXXXXXX, \
+  KC_LSFT, XXXXXXX,    LCAG(KC_LEFT), LCAG(KC_DOWN), LCAG(KC_RGHT), XXXXXXX,                                      KC_PGDN, KC_LEFT,    KC_DOWN, KC_RGHT, KC_PAUS, KC_INS, \
+  KC_LCTL, LCAG(KC_1), LCAG(KC_2),    LCAG(KC_3),    LCAG(KC_4),    KC_BSPC, XXXXXXX, _______, _______,  XXXXXXX, XXXXXXX, LCAG(KC_M), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
+                                      XXXXXXX,       _______,       _______,                            _______,  _______, XXXXXXX\
   ),
 
 /* RAISE
  * ,-----------------------------------------.                                  ,-----------------------------------------.
  * |      |      |      |      |      |      |                                  |      |      |      |      |      |      |
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
- * |      |      | MACL0| MACL1| MACL2|      |                                  | MWHU | MWHL | MSU  | MWHR |      |      |
+ * |LAlt  |      | MACL0| MACL1| MACL2|      |                                  | MWHU | MWHL | MSU  | MWHR |      |      |
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
  * |LShift|      | MBTNR| MBTNM| MBTNL|      |                                  | MWHD | MSL  | MSD  | MSR  |      |      |
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
- * |LCtrl |   Z  |   X  |   C  |   V  |      |-------.-------.  ,---------------|      |      |      |      |      |      |
+ * |LCtrl |   Z  |   X  |   C  |   V  | Bksp |-------.-------.  ,---------------|      |      |      |      |      |      |
  * `-----------------------------------------/       /       /   \       \       \----------------------------------------'
- *                          |LBRCA |RBRCG | /-------/ Space /     \       \-------\  |      |      |
+ *                          |      | LGUI | /-------/  SPCL /     \ ENTA  \-------\  | Bksp |      |
  *                          |      |      |/  EMHS /       /       \       \  KHKR \ |      |      |
  *                          `-----------------------------'         '------------------------------'
  */
  [_RAISE] = LAYOUT( \
   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,                                     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
-  XXXXXXX, XXXXXXX, KC_ACL0, KC_ACL1, KC_ACL2,  XXXXXXX,                                     KC_WH_U, KC_WH_L, KC_MS_U, KC_WH_R, XXXXXXX, XXXXXXX, \
-  _______, XXXXXXX, KC_BTN2, KC_BTN3, KC_BTN1,  XXXXXXX,                                     KC_WH_D, KC_MS_L, KC_MS_D, KC_MS_R, XXXXXXX, XXXXXXX, \
-  _______, _______, _______, _______, _______,  XXXXXXX, XXXXXXX, KC_SPC,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
-                                      _______,  _______, _______,                   _______, XXXXXXX, XXXXXXX \
+  KC_LALT, XXXXXXX, KC_ACL0, KC_ACL1, KC_ACL2,  XXXXXXX,                                     KC_WH_U, KC_WH_L, KC_MS_U, KC_WH_R, XXXXXXX, XXXXXXX, \
+  KC_LSFT, XXXXXXX, KC_BTN2, KC_BTN3, KC_BTN1,  XXXXXXX,                                     KC_WH_D, KC_MS_L, KC_MS_D, KC_MS_R, XXXXXXX, XXXXXXX, \
+  KC_LCTL, _______, _______, _______, _______,  KC_BSPC, XXXXXXX, _______, _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
+                                      XXXXXXX,  _______, _______,                   _______, _______, XXXXXXX \
   ),
 
 /*   ADJUST
@@ -139,16 +134,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
  * |LCtrl |   Z  |   X  |   C  |   V  | Bksp |-------.-------.  ,---------------|RGB ON| MODE |      |   .  |      | F12  |
  * `-----------------------------------------/       /       /   \       \       \----------------------------------------'
- *                          |LBRCA |RBRCG | /-------/ Space /     \  ENTA \-------\  |      |      |
- *                          |      |      |/  EMHS /       /       \       \       \ |      |      |
+ *                          |      | LGUI | /-------/  SPCL /     \ ENTA  \-------\  | Bksp |      |
+ *                          |      |      |/  EMHS /       /       \       \  KHKR \ |      |      |
  *                          `-----------------------------'         '------------------------------'
  */
  [_ADJUST] = LAYOUT( \
-  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
-  KC_ESC,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                                       KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11, \
-  KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                                        KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, \
-  _______, _______, _______, _______, _______, KC_BSPC, XXXXXXX, KC_SPC,  _______, XXXXXXX, RGB_TOG, RGB_MOD, XXXXXXX, KC_DOT,  XXXXXXX, KC_F12, \
-                                      _______, _______, _______,                   XXXXXXX, XXXXXXX, XXXXXXX \
+  XXXXXXX,        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
+  ALT_T(KC_ESC),  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                                       KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11, \
+  SFT_T(KC_GRV),  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                                        KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, \
+  KC_LCTL,        _______, _______, _______, _______, KC_BSPC, XXXXXXX, _______, _______, XXXXXXX, RGB_TOG, RGB_MOD, XXXXXXX, KC_DOT,  XXXXXXX, KC_F12, \
+                                    XXXXXXX, _______, _______,                            _______, _______, XXXXXXX \
   )
 };
 
@@ -292,18 +287,10 @@ void iota_gfx_task_user(void) {
 }
 #endif//SSD1306OLED
 
-static bool lower_pressed = false;
-static uint16_t lower_pressed_time = 0;
 static bool raise_pressed = false;
 static uint16_t raise_pressed_time = 0;
-static bool adjust_pressed = false;
-static uint16_t adjust_pressed_time = 0;
 static bool shift_pressed = false;
 static uint16_t shift_pressed_time = 0;
-static bool alt_pressed = false;
-static uint16_t alt_pressed_time = 0;
-static bool gui_pressed = false;
-static uint16_t gui_pressed_time = 0;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   char str[16];
@@ -455,24 +442,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
       #endif
       break;
-    case CK_EMHL:
-      if (record->event.pressed) {
-        lower_pressed = true;
-        lower_pressed_time = record->event.time;
-        layer_on(_LOWER);
-      } else {
-        layer_off(_LOWER);
-
-        if (lower_pressed && (TIMER_DIFF_16(record->event.time, lower_pressed_time) < TAPPING_TERM)) {
-          register_code(KC_LANG2);
-          register_code(KC_MHEN);
-          unregister_code(KC_MHEN);
-          unregister_code(KC_LANG2);
-        }
-
-        lower_pressed = false;
-      }
-      return false;
     case CK_KHKR:
       if (record->event.pressed) {
         raise_pressed = true;
@@ -480,7 +449,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         layer_on(_RAISE);
       } else {
         layer_off(_RAISE);
-        
+
         if (raise_pressed && (TIMER_DIFF_16(record->event.time, raise_pressed_time) < TAPPING_TERM)) {
           register_code(KC_LANG1);
           register_code(KC_HENK);
@@ -495,7 +464,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) {
         shift_pressed = true;
         shift_pressed_time = record->event.time;
-        register_code(KC_LSFT);  
+        register_code(KC_LSFT);
       } else {
         unregister_code(KC_LSFT);
         
@@ -507,68 +476,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
 
         shift_pressed = false;
-      }
-      return false;
-      case CK_SPCL:
-      if (record->event.pressed) {
-        lower_pressed = true;
-        lower_pressed_time = record->event.time;
-        layer_on(_LOWER);
-      } else {
-        layer_off(_LOWER);
-        if (lower_pressed && (TIMER_DIFF_16(record->event.time, lower_pressed_time) < TAPPING_TERM)) {
-          register_code(KC_SPC);
-          unregister_code(KC_SPC);
-        }
-
-        lower_pressed = false;
-      }
-      return false;
-      case CK_ENTA:
-      if (record->event.pressed) {
-        adjust_pressed = true;
-        adjust_pressed_time = record->event.time;
-        layer_on(_ADJUST);
-      } else {
-        layer_off(_ADJUST);
-        if (adjust_pressed && (TIMER_DIFF_16(record->event.time, adjust_pressed_time) < TAPPING_TERM)) {
-          register_code(KC_ENT);
-          unregister_code(KC_ENT);
-        }
-
-        adjust_pressed = false;
-      }
-      return false;
-      case CK_LBRCA:
-      if (record->event.pressed) {
-        alt_pressed = true;
-        alt_pressed_time = record->event.time;
-        register_code(KC_LALT);  
-      } else {
-        unregister_code(KC_LALT);
-        
-        if (alt_pressed && (TIMER_DIFF_16(record->event.time, alt_pressed_time) < TAPPING_TERM)) {
-          register_code(KC_LBRC);
-          unregister_code(KC_LBRC);
-        }
-
-        alt_pressed = false;
-      }
-      return false;
-      case CK_RBRCG:
-      if (record->event.pressed) {
-        gui_pressed = true;
-        gui_pressed_time = record->event.time;
-        register_code(KC_LGUI);  
-      } else {
-        unregister_code(KC_LGUI);
-        
-        if (gui_pressed && (TIMER_DIFF_16(record->event.time, gui_pressed_time) < TAPPING_TERM)) {
-          register_code(KC_RBRC);
-          unregister_code(KC_RBRC);
-        }
-
-        gui_pressed = false;
       }
       return false;
   }
