@@ -19,8 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "config_common.h"
 
-#define USE_I2C
-#define SSD1306OLED
+//#define USE_I2C
+//#define SSD1306OLED
 
 /* USB Device descriptor parameter */
 #define VENDOR_ID       0x16C0

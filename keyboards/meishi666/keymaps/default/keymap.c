@@ -145,8 +145,7 @@ void music_scale_user(void)
 #ifdef SSD1306OLED
 
 
-void matrix_update(struct CharacterMatrix *dest,
-                          const struct CharacterMatrix *source) {
+void matrix_update(struct CharacterMatrix *dest, const struct CharacterMatrix *source) {
   if (memcmp(dest->display, source->display, sizeof(dest->display))) {
     memcpy(dest->display, source->display, sizeof(dest->display));
     dest->dirty = true;
@@ -185,28 +184,28 @@ void render_status(struct CharacterMatrix *matrix) {
            matrix_write(matrix, buf);
     }
 
-  // Host Keyboard LED Status
-  char led[40];
-    snprintf(led, sizeof(led), "\n%s  %s  %s",
-            (host_keyboard_leds() & (1<<USB_LED_NUM_LOCK)) ? "NUMLOCK" : "       ",
-            (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK)) ? "CAPS" : "    ",
-            (host_keyboard_leds() & (1<<USB_LED_SCROLL_LOCK)) ? "SCLK" : "    ");
-  matrix_write(matrix, led);
+  UPDATE_LED_STATUS();
+  RENDER_LED_STATUS(matrix);
 }
 
 
 void iota_gfx_task_user(void) {
   struct CharacterMatrix matrix;
 
-#if DEBUG_TO_SCREEN
+  #if DEBUG_TO_SCREEN
   if (debug_enable) {
     return;
   }
-#endif
+  #endif
+
+  bool is_master = true;
 
   matrix_clear(&matrix);
-  render_status(&matrix);
+  if (is_master) {
+    render_status(&matrix);
+  } else {
+    render_logo(&matrix);
+  }
   matrix_update(&display, &matrix);
 }
-
 #endif
