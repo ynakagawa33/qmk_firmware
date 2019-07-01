@@ -58,6 +58,10 @@ util/Win_Check_Output.txt
 .stfolder
 .tags
 
+# NetBeans
+nbproject/*
+keyboards/*/nbproject/*
+
 # ignore image files
 *.png
 *.jpg

@@ -15,6 +15,24 @@
  */
 #include "meishi666.h"
 
+#ifdef SSD1306OLED
+#include "ssd1306.h"
+
+bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
+	return process_record_gfx(keycode,record) && process_record_user(keycode, record);
+}
+
+#else
+
+bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
+	// put your per-action keyboard code here
+	// runs for every action, just before processing by the firmware
+
+	return process_record_user(keycode, record);
+}
+
+#endif
+
 void matrix_init_kb(void) {
 	// put your keyboard start-up code here
 	// runs once when the firmware starts up
@@ -29,12 +47,6 @@ void matrix_scan_kb(void) {
 	matrix_scan_user();
 }
 
-bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
-	// put your per-action keyboard code here
-	// runs for every action, just before processing by the firmware
-
-	return process_record_user(keycode, record);
-}
 
 void led_set_kb(uint8_t usb_led) {
 	// put your keyboard LED indicator (ex: Caps Lock LED) toggling code here

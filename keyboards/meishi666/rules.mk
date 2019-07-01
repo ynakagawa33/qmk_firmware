@@ -78,4 +78,9 @@ UNICODE_ENABLE = no         # Unicode
 BLUETOOTH_ENABLE = no       # Enable Bluetooth with the Adafruit EZ-Key HID
 AUDIO_ENABLE = yes          # Audio output on port C6
 FAUXCLICKY_ENABLE = no      # Use buzzer to emulate clicky switches
-HD44780_ENABLE = no 		# Enable support for HD44780 based LCDs (+400)
+HD44780_ENABLE = no         # Enable support for HD44780 based LCDs (+400)
+OLED_ENABLE = yes
+
+SRC += i2c.c
+SRC += ssd1306.c
+SRC += ./common/oled_helper.c

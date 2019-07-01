@@ -19,12 +19,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "config_common.h"
 
+#define USE_I2C
+#define SSD1306OLED
+
 /* USB Device descriptor parameter */
 #define VENDOR_ID       0x16C0
 #define PRODUCT_ID      0x27DB
 #define DEVICE_VER      0x0001
 #define MANUFACTURER    SwanMatch
-#define PRODUCT         Kiminonawa
+#define PRODUCT         Meishi666
 #define DESCRIPTION     A custom keyboard
 
 /* key matrix size */
@@ -81,7 +84,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* Audio */
 #ifdef AUDIO_ENABLE
-  #define B6_AUDIO 
+  #define B6_AUDIO
   #define STARTUP_SONG SONG(STARTUP_SOUND)
   #define AUDIO_CLICKY
 #endif
