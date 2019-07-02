@@ -107,11 +107,8 @@ void matrix_init_user(void) {
   #endif
   //SSD1306 OLED init, make sure to add #define SSD1306OLED in config.h
   #ifdef SSD1306OLED
-    iota_gfx_init(false);   // turns on the display
+    iota_gfx_init(true);   // turns on the display
   #endif
-}
-
-void matrix_scan_user(void) {
 }
 
 void led_set_user(uint8_t usb_led) {
@@ -144,68 +141,63 @@ void music_scale_user(void)
 //SSD1306 OLED update loop, make sure to add #define SSD1306OLED in config.h
 #ifdef SSD1306OLED
 
+void matrix_scan_user(void) {
+     iota_gfx_task();  // this is what updates the display continuously
+}
 
-void matrix_update(struct CharacterMatrix *dest, const struct CharacterMatrix *source) {
+void matrix_update(struct CharacterMatrix *dest,
+                          const struct CharacterMatrix *source) {
   if (memcmp(dest->display, source->display, sizeof(dest->display))) {
     memcpy(dest->display, source->display, sizeof(dest->display));
     dest->dirty = true;
   }
 }
 
+//assign the right code to your layers for OLED display
+#define L_CTL 0
+#define L_CURSOL (1<<_CURSOL)
+#define L_MOUSE (1<<_MOUSE)
+
 void render_status(struct CharacterMatrix *matrix) {
-
-  // Render to mode icon
-  static char logo[][2][3]={{{0x95,0x96,0},{0xb5,0xb6,0}},{{0x97,0x98,0},{0xb7,0xb8,0}}};
-  if(keymap_config.swap_lalt_lgui==false){
-    matrix_write(matrix, logo[0][0]);
-    matrix_write_P(matrix, PSTR("\n"));
-    matrix_write(matrix, logo[0][1]);
-  }else{
-    matrix_write(matrix, logo[1][0]);
-    matrix_write_P(matrix, PSTR("\n"));
-    matrix_write(matrix, logo[1][1]);
-  }
-
+  render_logo(matrix);
   // Define layers here, Have not worked out how to have text displayed for each layer. Copy down the number you see and add a case for it below
   char buf[40];
-  snprintf(buf,sizeof(buf), "Undef-%ld", layer_state);
-  matrix_write_P(matrix, PSTR("\nMode: "));
-    switch (layer_state) {
-        case _CTL:
-           matrix_write_P(matrix, PSTR("Control"));
-           break;
-        case _CURSOL:
-           matrix_write_P(matrix, PSTR("Cursol"));
-           break;
-        case _MOUSE:
-           matrix_write_P(matrix, PSTR("Mouse"));
-           break;
-        default:
-           matrix_write(matrix, buf);
-    }
-
+  snprintf(buf, sizeof(buf), "Undef-%ld", layer_state);
+  switch (layer_state) {
+     case L_CTL:
+      matrix_write_P(matrix, PSTR("Control Mode\n"));
+      break;
+    case L_CURSOL:
+      matrix_write_P(matrix, PSTR("Cursol Mode\n"));
+      break;
+    case L_MOUSE:
+      matrix_write_P(matrix, PSTR("Mouse Mode\n"));
+      break;
+    default:
+      break;
+      matrix_write(matrix, buf);
+  }
   UPDATE_LED_STATUS();
   RENDER_LED_STATUS(matrix);
+  // Host Keyboard LED Status
+  //char led[40];
+  //snprintf(led, sizeof(led), "\n%s  %s  %s", (host_keyboard_leds() & (1 << USB_LED_NUM_LOCK)) ? "NUMLOCK" : "       ", (host_keyboard_leds() & (1 << USB_LED_CAPS_LOCK)) ? "CAPS" : "    ", (host_keyboard_leds() & (1 << USB_LED_SCROLL_LOCK)) ? "SCLK" : "    ");
+  //matrix_write(matrix, led);
 }
 
 
 void iota_gfx_task_user(void) {
   struct CharacterMatrix matrix;
 
-  #if DEBUG_TO_SCREEN
+#if DEBUG_TO_SCREEN
   if (debug_enable) {
     return;
   }
-  #endif
-
-  bool is_master = true;
+#endif
 
   matrix_clear(&matrix);
-  if (is_master) {
-    render_status(&matrix);
-  } else {
-    render_logo(&matrix);
-  }
+  render_status(&matrix);
   matrix_update(&display, &matrix);
 }
+
 #endif
