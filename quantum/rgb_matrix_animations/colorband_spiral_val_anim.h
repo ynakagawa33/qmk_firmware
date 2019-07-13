@@ -2,8 +2,14 @@
 RGB_MATRIX_EFFECT(BAND_SPIRAL_VAL)
 #ifdef RGB_MATRIX_CUSTOM_EFFECT_IMPLS
 
+<<<<<<< HEAD
 static void BAND_SPIRAL_VAL_math(HSV* hsv, int16_t dx, int16_t dy, uint8_t dist, uint8_t time) {
     hsv->v = scale8(rgb_matrix_config.val + dist - time - atan2_8(dy, dx), rgb_matrix_config.val);
+=======
+static HSV BAND_SPIRAL_VAL_math(HSV hsv, int16_t dx, int16_t dy, uint8_t dist, uint8_t time) {
+    hsv.v = scale8(hsv.v + dist - time - atan2_8(dy, dx), hsv.v);
+    return hsv;
+>>>>>>> da1f05fbc19477c05c0c01bb07fabfaf1ece9d54
 }
 
 bool BAND_SPIRAL_VAL(effect_params_t* params) {

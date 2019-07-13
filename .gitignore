@@ -63,6 +63,10 @@ util/Win_Check_Output.txt
 *.jpg
 *.gif
 
+# netbeans
+nbproject/*
+keyboards/*/nbproject/*
+
 # Do not ignore MiniDox left/right hand eeprom files
 !keyboards/minidox/*.eep
 
