@@ -74,3 +74,6 @@ keyboards/*/nbproject/*
 secrets.tar
 id_rsa_*
 /.vs
+
+# python things
+__pycache__
