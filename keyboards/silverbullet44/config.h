@@ -62,7 +62,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef RGB_DI_PIN
   #define RGBLIGHT_SPLIT
 //  #define RGBLED_SPLIT {26, 26}
-  #define RGBLED_NUM 22
+  #define RGBLED_NUM 25
   #define RGBLIGHT_HUE_STEP 8
   #define RGBLIGHT_SAT_STEP 8
   #define RGBLIGHT_VAL_STEP 8
@@ -97,6 +97,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   #define B6_AUDIO
   #define STARTUP_SONG SONG(STARTUP_SOUND)
   #define AUDIO_CLICKY
+  #define AUDIO_CLUCKY_FREQ_MAX 220.0f
+  #define AUDIO_CLUCKY_FREQ_MIN 1760.0f
+  #define AUDIO_CLICKY_FREQ_RANDOMNESS 1.0f
 #endif
 
 /* Debounce reduces chatter (unintended double-presses) - set 0 if debouncing is not needed */
@@ -108,9 +111,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* number of backlight levels */
 
 /* Mechanical locking support. Use KC_LCAP, KC_LNUM or KC_LSCR instead in keymap */
-#define LOCKING_SUPPORT_ENABLE
+//#define LOCKING_SUPPORT_ENABLE
 /* Locking resynchronize hack */
-#define LOCKING_RESYNC_ENABLE
+//#define LOCKING_RESYNC_ENABLE
 
 /* If defined, GRAVE_ESC will always act as ESC when CTRL is held.
  * This is userful for the Windows task manager shortcut (ctrl+shift+esc).
@@ -205,9 +208,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* disable action features */
 //#define NO_ACTION_LAYER
 //#define NO_ACTION_TAPPING
-//#define NO_ACTION_ONESHOT
+#define NO_ACTION_ONESHOT
 //#define NO_ACTION_MACRO
-//#define NO_ACTION_FUNCTION
+#define NO_ACTION_FUNCTION
 
 /*
  * MIDI options
