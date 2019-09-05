@@ -102,11 +102,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* Debounce reduces chatter (unintended double-presses) - set 0 if debouncing is not needed */
 #define DEBOUNCE 10
 
-#define RETRO_TAPPING
+//#define RETRO_TAPPING
 
-#define MOUSEKEY_INTERVAL 20
-#define MOUSEKEY_MAX_SPEED 5
-#define MOUSEKEY_TIME_TO_MAX 60
+#ifdef MOUSEKEY_ENABLE
+  #define MOUSEKEY_INTERVAL 20
+  #define MOUSEKEY_MAX_SPEED 5
+  #define MOUSEKEY_TIME_TO_MAX 60
+#endif
 
 /* define if matrix has ghost (lacks anti-ghosting diodes) */
 //#define MATRIX_HAS_GHOST
