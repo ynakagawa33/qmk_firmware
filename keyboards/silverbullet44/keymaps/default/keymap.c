@@ -1,4 +1,4 @@
-/* Copyright %YEAR% %YOUR_NAME%
+/* Copyright 2019 SwanMatch
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,7 +38,6 @@ enum custom_keycodes {
 #define XXXXXXX KC_NO
 #define CALC  LT(_CALC,   KC_ESC)
 #define CUSL  LT(_CURSOL, KC_TAB)
-#define MOUSE LT(_MOUSE,  KC_TAB)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -46,19 +45,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,-----------------------------------------.                                  ,-----------------------------------------.
  * |TabMOS|   Q  |   W  |   E  |   R  |   T  |                                  |   Y  |   U  |   I  |   O  |   P  |  =   |
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
- * |LShift|   A  |   S  |   D  |   F  |   G  |                                  |   H  |   J  |   K  |   L  |   ;  |  '   |
+ * |Shift |   A  |   S  |   D  |   F  |   G  |                                  |   H  |   J  |   K  |   L  |   ;  |  '   |
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
- * |LCTRL |   Z  |   X  |   C  |   V  |   B  |-------.-------.  ,---------------|   N  |   M  |   ,  |   .  |   /  |  -   |
+ * | Ctrl |   Z  |   X  |   C  |   V  |   B  |-------.-------.  ,---------------|   N  |   M  |   ,  |   .  |   /  |  -   |
  * `-----------------------------------------/       /       /   \       \      \----------------------------------------'
- *                          | Alt  | Bksp | / Shift / Calc  /     \ Cursol\ CTRL | Del  |  App  |
+ *                          | Alt  | Bksp | / Shift / Calc  /     \ Cursol\ Ctrl | Del  |  App  |
  *                          |  F5  |      |/ Space /  Esc  /       \  Tab  \ Enter\     |  F12  |
  *                          `-----------------------------'         '---------------------------'
  */
  [_QWERTY] = LAYOUT( \
-    MOUSE,    KC_Q, KC_W, KC_E, KC_R, KC_T,                KC_Y,   KC_U,    KC_I,    KC_O,   KC_P,    KC_EQL,  \
-    KC_LSFT,  KC_A, KC_S, KC_D, KC_F, KC_G,                KC_H,   KC_J,    KC_K,    KC_L,   KC_SCLN, KC_QUOT, \
-    KC_LCTRL, KC_Z, KC_X, KC_C, KC_V, KC_B,                KC_N,   KC_M,    KC_COMM, KC_DOT, KC_SLSH, KC_MINS, \
-    LALT_T(KC_F5), KC_BSPC, LSFT_T(KC_SPC), CALC,    CUSL, LCTL_T(KC_ENT), KC_DEL, GUI_T(KC_F12) \
+    KC_TAB,    KC_Q, KC_W, KC_E, KC_R, KC_T,                KC_Y,   KC_U,    KC_I,    KC_O,   KC_P,    KC_EQL,  \
+    KC_LSFT,   KC_A, KC_S, KC_D, KC_F, KC_G,                KC_H,   KC_J,    KC_K,    KC_L,   KC_SCLN, KC_QUOT, \
+    KC_LCTRL,  KC_Z, KC_X, KC_C, KC_V, KC_B,                KC_N,   KC_M,    KC_COMM, KC_DOT, KC_SLSH, KC_MINS, \
+     LALT_T(KC_F5), KC_BSPC, LSFT_T(KC_SPC), CALC,    CUSL, LCTL_T(KC_ENT), KC_DEL, GUI_T(KC_F12) \
   ),
 
 /* Cursol
@@ -111,20 +110,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                          |Click |Click |/ Click /       /       \       \      \ |      |      |
  *                          `-----------------------------'         '-----------------------------'
 */
-
- [_MOUSE] = LAYOUT( \
-  _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_WH_L, KC_WH_R, KC_MS_U, XXXXXXX, XXXXXXX, _______, \
-  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_WH_U, KC_MS_L, KC_MS_D, KC_MS_R, XXXXXXX, XXXXXXX, \
-  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_WH_D, KC_ACL0, KC_ACL1, KC_ACL2, XXXXXXX, XXXXXXX, \
-                             KC_BTN1, KC_BTN2, KC_BTN3, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX \
-  ),
 /*   ADJUST
  * ,-----------------------------------------.                                  ,-----------------------------------------.
- * |      |      |      |      |      |      |                                  |      |      |      |      |      |      |
+ * |      |      |      |FrqRst|      |      |                                  |      |      |      |      |      |      |
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
- * |      |      |      |      |      |      |                                  | SPD+ | MOD+ | VAL+ | SAD+ | HUE+ |      |
+ * |      |      |Music |FrqUp |Sound |      |                                  | SPD+ | MOD+ | VAL+ | SAD+ | HUE+ |      |
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
- * |      |      |      |      |      |      |-------.-------.  ,---------------| SPD- | SPD- | VAL- | SAD- | HUE- |      |
+ * |      |      |Scale |FrqDwn|      |      |-------.-------.  ,---------------| SPD- | SPD- | VAL- | SAD- | HUE- |      |
  * `-----------------------------------------/       /       /   \       \       \----------------------------------------'
  *                          |      |      | /       /       /     \       \       \  |      |      |
  *                          |      |      |/       /       /       \       \       \ |      |      |
@@ -132,9 +124,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 */
 
  [_ADJUST] = LAYOUT( \
-  _______, XXXXXXX, XXXXXXX, CK_RST,  XXXXXXX, MU_MOD,                       XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, _______, \
-  XXXXXXX, XXXXXXX, CK_ON,   CK_UP,   AU_ON,   MU_ON,                        RGB_SPI, RGB_MOD,  RGB_VAI, RGB_SAI, RGB_HUI, XXXXXXX, \
-  XXXXXXX, XXXXXXX, CK_OFF,  CK_DOWN, AU_OFF,  MU_OFF,                       RGB_SPD, RGB_RMOD, RGB_VAD, RGB_SAD, RGB_HUD, XXXXXXX, \
+  _______, XXXXXXX, XXXXXXX, CK_RST,  XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, _______, \
+  XXXXXXX, XXXXXXX, MU_TOG,  CK_UP,   AU_TOG,  XXXXXXX,                      RGB_SPI, RGB_MOD,  RGB_VAI, RGB_SAI, RGB_HUI, XXXXXXX, \
+  XXXXXXX, XXXXXXX, MU_MOD,  CK_DOWN, XXXXXXX, XXXXXXX,                      RGB_SPD, RGB_RMOD, RGB_VAD, RGB_SAD, RGB_HUD, XXXXXXX, \
                              XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX \
   )
 };
