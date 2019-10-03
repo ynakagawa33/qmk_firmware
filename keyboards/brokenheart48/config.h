@@ -1,5 +1,5 @@
 /*
-Copyright 2019 swan_match
+Copyright 2019 SwanMatch
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -28,8 +28,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DESCRIPTION     A custom keyboard
 
 /* key matrix size */
-#define MATRIX_ROWS 2
-#define MATRIX_COLS 3
+#define MATRIX_ROWS 8
+#define MATRIX_COLS 7
 
 /*
  * Keyboard Matrix Assignments
@@ -41,8 +41,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *                  ROW2COL = ROW = Anode (+), COL = Cathode (-, marked on diode)
  *
 */
-#define MATRIX_ROW_PINS { D0, D5 }
-#define MATRIX_COL_PINS { F1, F0, B0 }
+#define MATRIX_ROW_PINS { D4, C6, D7, E6 }
+//#define MATRIX_COL_PINS { B2, B3, B1, F7, F6, F5, F4 }
+#define MATRIX_COL_PINS { F4, F5, F6, F7, B1, B3, B2 }
 #define UNUSED_PINS
 
 /* COL2ROW, ROW2COL*/
@@ -51,50 +52,77 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /*
  * Split Keyboard specific options, make sure you have 'SPLIT_KEYBOARD = yes' in your rules.mk, and define SOFT_SERIAL_PIN.
  */
-#define SOFT_SERIAL_PIN D0 // or D1, D2, D3, E6
+#define SOFT_SERIAL_PIN D2 // or D1, D2, D3, E6
+//#define MASTER_RIGHT
 
 // #define BACKLIGHT_PIN B7
 // #define BACKLIGHT_BREATHING
 // #define BACKLIGHT_LEVELS 3
 
-// #define RGB_DI_PIN E2
-// #ifdef RGB_DI_PIN
-//   #define RGBLED_NUM 16
-//   #define RGBLIGHT_HUE_STEP 8
-//   #define RGBLIGHT_SAT_STEP 8
-//   #define RGBLIGHT_VAL_STEP 8
-//   #define RGBLIGHT_LIMIT_VAL 255 /* The maximum brightness level */
-//   #define RGBLIGHT_SLEEP  /* If defined, the RGB lighting will be switched off when the host goes to sleep */
-// /*== all animations enable ==*/
-//   #define RGBLIGHT_ANIMATIONS
-// /*== or choose animations ==*/
-//   #define RGBLIGHT_EFFECT_BREATHING
-//   #define RGBLIGHT_EFFECT_RAINBOW_MOOD
-//   #define RGBLIGHT_EFFECT_RAINBOW_SWIRL
-//   #define RGBLIGHT_EFFECT_SNAKE
-//   #define RGBLIGHT_EFFECT_KNIGHT
-//   #define RGBLIGHT_EFFECT_CHRISTMAS
-//   #define RGBLIGHT_EFFECT_STATIC_GRADIENT
-//   #define RGBLIGHT_EFFECT_RGB_TEST
-//   #define RGBLIGHT_EFFECT_ALTERNATING
-// /*== customize breathing effect ==*/
-//   /*==== (DEFAULT) use fixed table instead of exp() and sin() ====*/
-//   #define RGBLIGHT_BREATHE_TABLE_SIZE 256      // 256(default) or 128 or 64
-//   /*==== use exp() and sin() ====*/
-//   #define RGBLIGHT_EFFECT_BREATHE_CENTER 1.85  // 1 to 2.7
-//   #define RGBLIGHT_EFFECT_BREATHE_MAX    255   // 0 to 255
-// #endif
+#define RGB_DI_PIN D3
+#ifdef RGB_DI_PIN
+  //#define RGBLIGHT_SPLIT
+  #define RGBLED_SPLIT {25, 21}
+  #define RGBLED_NUM 46
+  #define RGBLIGHT_HUE_STEP 8
+  #define RGBLIGHT_SAT_STEP 8
+  #define RGBLIGHT_VAL_STEP 8
+  #define RGBLIGHT_LIMIT_VAL 130 /* The maximum brightness level */
+  //#define RGBLIGHT_SLEEP  /* If defined, the RGB lighting will be switched off when the host goes to sleep */
+/*== all animations enable ==*/
+//  #define RGBLIGHT_ANIMATIONS
+/*== or choose animations ==*/
+  #define RGBLIGHT_EFFECT_BREATHING
+  #define RGBLIGHT_EFFECT_RAINBOW_MOOD
+  #define RGBLIGHT_EFFECT_RAINBOW_SWIRL
+  #define RGBLIGHT_EFFECT_SNAKE
+//  #define RGBLIGHT_EFFECT_KNIGHT
+//  #define RGBLIGHT_EFFECT_CHRISTMAS
+//  #define RGBLIGHT_EFFECT_STATIC_GRADIENT
+//  #define RGBLIGHT_EFFECT_RGB_TEST
+//  #define RGBLIGHT_EFFECT_ALTERNATING
+/*== customize breathing effect ==*/
+  /*==== (DEFAULT) use fixed table instead of exp() and sin() ====*/
+  #define RGBLIGHT_BREATHE_TABLE_SIZE 256      // 256(default) or 128 or 64
+  /*==== use exp() and sin() ====*/
+  #define RGBLIGHT_EFFECT_BREATHE_CENTER 2     // 1 to 2.7
+  #define RGBLIGHT_EFFECT_BREATHE_MAX    255   // 0 to 255
+/*== customize snake effect ==*/
+  #define RGBLIGHT_EFFECT_SNAKE_LENGTH RGBLED_NUM
+/*== customize knight effect ==*/
+  #define RGBLIGHT_EFFECT_KNIGHT_LENGTH 6
+#endif
+
+/* Audio */
+#ifdef AUDIO_ENABLE
+  #define B6_AUDIO
+  #define STARTUP_SONG SONG(STARTUP_SOUND)
+  #define AUDIO_CLICKY
+  #define AUDIO_CLUCKY_FREQ_MAX 220.0f
+  #define AUDIO_CLUCKY_FREQ_MIN 1760.0f
+  #define AUDIO_CLICKY_FREQ_RANDOMNESS 1.0f
+#endif
 
 /* Debounce reduces chatter (unintended double-presses) - set 0 if debouncing is not needed */
-#define DEBOUNCE 5
+#define DEBOUNCE 10
+
+//#define RETRO_TAPPING
+
+#ifdef MOUSEKEY_ENABLE
+  #define MOUSEKEY_INTERVAL 20
+  #define MOUSEKEY_MAX_SPEED 5
+  #define MOUSEKEY_TIME_TO_MAX 60
+#endif
 
 /* define if matrix has ghost (lacks anti-ghosting diodes) */
 //#define MATRIX_HAS_GHOST
 
+/* number of backlight levels */
+
 /* Mechanical locking support. Use KC_LCAP, KC_LNUM or KC_LSCR instead in keymap */
-#define LOCKING_SUPPORT_ENABLE
+//#define LOCKING_SUPPORT_ENABLE
 /* Locking resynchronize hack */
-#define LOCKING_RESYNC_ENABLE
+//#define LOCKING_RESYNC_ENABLE
 
 /* If defined, GRAVE_ESC will always act as ESC when CTRL is held.
  * This is userful for the Windows task manager shortcut (ctrl+shift+esc).
@@ -189,9 +217,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* disable action features */
 //#define NO_ACTION_LAYER
 //#define NO_ACTION_TAPPING
-//#define NO_ACTION_ONESHOT
-//#define NO_ACTION_MACRO
-//#define NO_ACTION_FUNCTION
+#define NO_ACTION_ONESHOT
+#define NO_ACTION_MACRO
+#define NO_ACTION_FUNCTION
 
 /*
  * MIDI options

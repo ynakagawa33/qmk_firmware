@@ -26,10 +26,18 @@
  * represents the switch matrix.
  */
 #define LAYOUT( \
-    k00, k01, k02, \
-      k10,  k11   \
+    L00, L01, L02, L03, L04,                               R04, R03, R02, R01, \
+    L10, L11, L12, L13, L14, L15,                     R15, R14, R13, R12, R11, \
+    L20, L21, L22, L23, L24, L25, L26,           R26, R25, R24, R23, R22, R21, \
+    L30, L31, L32, L33, L34, L35, L36, L37, R37, R36, R35, R34, R33, R32, R31  \
 ) \
 { \
-    { k00, k01,   k02 }, \
-    { k10, KC_NO, k11 }, \
+    { L00,   L01,   L02,   L03,   L04,   KC_NO, KC_NO }, \
+    { L10,   L11,   L12,   L13,   L14,   L15,   L26   }, \
+    { L20,   L21,   L22,   L23,   L24,   L25,   L36   }, \
+    { L30,   L32,   L32,   L33,   L34,   L35,   L37   }, \
+    { KC_NO, R01,   R02,   R03,   R04,   KC_NO, KC_NO }, \
+    { KC_NO, R11,   R12,   R13,   R14,   R15,   R26   }, \
+    { KC_NO, R21,   R22,   R23,   R24,   R25,   R36   }, \
+    { KC_NO, R31,   R32,   R33,   R34,   R35,   R37   }  \
 }
