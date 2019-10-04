@@ -63,19 +63,34 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   //#define RGBLIGHT_SPLIT
   #define RGBLED_SPLIT {26, 26}
   #define RGBLED_NUM 52
-  #define RGBLIGHT_LED_MAP { 4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,0,1,2,3,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,26,27,28,29 }
-  #define RGBLIGHT_HUE_STEP 8
-  #define RGBLIGHT_SAT_STEP 8
-  #define RGBLIGHT_VAL_STEP 8
-  #define RGBLIGHT_LIMIT_VAL 130 /* The maximum brightness level */
+  #ifdef RGB_MATRIX_ENABLE
+    #define DRIVER_LED_TOTAL 52
+    #define RGB_MATRIX_MAXIMUM_BRIGHTNESS 150
+
+    #define RGB_MATRIX_HUE_STEP 8
+    #define RGB_MATRIX_SAT_STEP 8
+    #define RGB_MATRIX_VAL_STEP 8
+    #define RGB_MATRIX_SPD_STEP 8
+
+    #define RGB_MATRIX_FRAMEBUFFER_EFFECTS
+
+    #define RGB_MATRIX_KEYPRESSES  // reacts to keypresses
+
+    #define RGB_MATRIX_STARTUP_MODE RGB_MATRIX_TYPING_HEATMAP
+  #else
+    #define RGBLIGHT_LED_MAP { 4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,0,1,2,3,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,26,27,28,29 }
+    #define RGBLIGHT_HUE_STEP 8
+    #define RGBLIGHT_SAT_STEP 8
+    #define RGBLIGHT_VAL_STEP 8
+    #define RGBLIGHT_LIMIT_VAL 150 /* The maximum brightness level */
   //#define RGBLIGHT_SLEEP  /* If defined, the RGB lighting will be switched off when the host goes to sleep */
 /*== all animations enable ==*/
 //  #define RGBLIGHT_ANIMATIONS
 /*== or choose animations ==*/
-  #define RGBLIGHT_EFFECT_BREATHING
-  #define RGBLIGHT_EFFECT_RAINBOW_MOOD
-  #define RGBLIGHT_EFFECT_RAINBOW_SWIRL
-  #define RGBLIGHT_EFFECT_SNAKE
+    #define RGBLIGHT_EFFECT_BREATHING
+    #define RGBLIGHT_EFFECT_RAINBOW_MOOD
+    #define RGBLIGHT_EFFECT_RAINBOW_SWIRL
+    #define RGBLIGHT_EFFECT_SNAKE
 //  #define RGBLIGHT_EFFECT_KNIGHT
 //  #define RGBLIGHT_EFFECT_CHRISTMAS
 //  #define RGBLIGHT_EFFECT_STATIC_GRADIENT
@@ -83,14 +98,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //  #define RGBLIGHT_EFFECT_ALTERNATING
 /*== customize breathing effect ==*/
   /*==== (DEFAULT) use fixed table instead of exp() and sin() ====*/
-  #define RGBLIGHT_BREATHE_TABLE_SIZE 256      // 256(default) or 128 or 64
+    #define RGBLIGHT_BREATHE_TABLE_SIZE 256      // 256(default) or 128 or 64
   /*==== use exp() and sin() ====*/
-  #define RGBLIGHT_EFFECT_BREATHE_CENTER 2     // 1 to 2.7
-  #define RGBLIGHT_EFFECT_BREATHE_MAX    255   // 0 to 255
+    #define RGBLIGHT_EFFECT_BREATHE_CENTER 2     // 1 to 2.7
+    #define RGBLIGHT_EFFECT_BREATHE_MAX    255   // 0 to 255
 /*== customize snake effect ==*/
-  #define RGBLIGHT_EFFECT_SNAKE_LENGTH RGBLED_NUM
+    #define RGBLIGHT_EFFECT_SNAKE_LENGTH RGBLED_NUM
 /*== customize knight effect ==*/
-  #define RGBLIGHT_EFFECT_KNIGHT_LENGTH 6
+    #define RGBLIGHT_EFFECT_KNIGHT_LENGTH 6
+  #endif
 #endif
 
 /* Audio */
