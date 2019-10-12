@@ -62,8 +62,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define RGB_DI_PIN D3
 #ifdef RGB_DI_PIN
   //#define RGBLIGHT_SPLIT
-  #define RGBLED_SPLIT {25, 21}
-  #define RGBLED_NUM 46
+  #define RGBLED_SPLIT {26, 22}
+  #define RGBLED_NUM 48
   #define RGBLIGHT_HUE_STEP 8
   #define RGBLIGHT_SAT_STEP 8
   #define RGBLIGHT_VAL_STEP 8
@@ -95,7 +95,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* Audio */
 #ifdef AUDIO_ENABLE
-  #define B6_AUDIO
+  #define B5_AUDIO
   #define STARTUP_SONG SONG(STARTUP_SOUND)
   #define AUDIO_CLICKY
   #define AUDIO_CLUCKY_FREQ_MAX 220.0f
