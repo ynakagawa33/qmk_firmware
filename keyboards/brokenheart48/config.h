@@ -20,16 +20,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "config_common.h"
 
 /* USB Device descriptor parameter */
-#define VENDOR_ID       0x16C0
-#define PRODUCT_ID      0x27DB
+#define VENDOR_ID       0xFEED
+#define PRODUCT_ID      0x0000
 #define DEVICE_VER      0x0001
-#define MANUFACTURER    SwanMatch
-#define PRODUCT         SilverBullet44
-#define DESCRIPTION     Metalical Keyboard
+#define MANUFACTURER    swan_match
+#define PRODUCT         brokenheart48
+#define DESCRIPTION     A custom keyboard
 
 /* key matrix size */
 #define MATRIX_ROWS 8
-#define MATRIX_COLS 6
+#define MATRIX_COLS 7
 
 /*
  * Keyboard Matrix Assignments
@@ -42,7 +42,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
 */
 #define MATRIX_ROW_PINS { D4, C6, D7, E6 }
-#define MATRIX_COL_PINS { B3, B1, F7, F6, F5, F4 }
+//#define MATRIX_COL_PINS { B2, B3, B1, F7, F6, F5, F4 }
+#define MATRIX_COL_PINS { F4, F5, F6, F7, B1, B3, B2 }
 #define UNUSED_PINS
 
 /* COL2ROW, ROW2COL*/
@@ -52,7 +53,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * Split Keyboard specific options, make sure you have 'SPLIT_KEYBOARD = yes' in your rules.mk, and define SOFT_SERIAL_PIN.
  */
 #define SOFT_SERIAL_PIN D2 // or D1, D2, D3, E6
-#define MASTER_RIGHT
+//#define MASTER_RIGHT
 
 // #define BACKLIGHT_PIN B7
 // #define BACKLIGHT_BREATHING
@@ -61,37 +62,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define RGB_DI_PIN D3
 #ifdef RGB_DI_PIN
   //#define RGBLIGHT_SPLIT
-  #define RGBLED_SPLIT {26, 26}
-  #define RGBLED_NUM 52
-  #ifdef RGB_MATRIX_ENABLE
-    #define DRIVER_LED_TOTAL 52
-    #define RGB_MATRIX_MAXIMUM_BRIGHTNESS 150
-
-    #define RGB_MATRIX_HUE_STEP 8
-    #define RGB_MATRIX_SAT_STEP 8
-    #define RGB_MATRIX_VAL_STEP 8
-    #define RGB_MATRIX_SPD_STEP 8
-
-    #define RGB_MATRIX_FRAMEBUFFER_EFFECTS
-
-    #define RGB_MATRIX_KEYPRESSES  // reacts to keypresses
-
-    #define RGB_MATRIX_STARTUP_MODE RGB_MATRIX_TYPING_HEATMAP
-  #else
-    #define RGBLIGHT_LED_MAP { 0,1,2,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,3,4,5,6, \
-                              26,27,28,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,29,30,31,32 }
-    #define RGBLIGHT_HUE_STEP 8
-    #define RGBLIGHT_SAT_STEP 8
-    #define RGBLIGHT_VAL_STEP 8
-    #define RGBLIGHT_LIMIT_VAL 150 /* The maximum brightness level */
+  #define RGBLED_SPLIT {26, 22}
+  #define RGBLED_NUM 48
+  #define RGBLIGHT_HUE_STEP 8
+  #define RGBLIGHT_SAT_STEP 8
+  #define RGBLIGHT_VAL_STEP 8
+  #define RGBLIGHT_LIMIT_VAL 130 /* The maximum brightness level */
   //#define RGBLIGHT_SLEEP  /* If defined, the RGB lighting will be switched off when the host goes to sleep */
 /*== all animations enable ==*/
 //  #define RGBLIGHT_ANIMATIONS
 /*== or choose animations ==*/
-    #define RGBLIGHT_EFFECT_BREATHING
-    #define RGBLIGHT_EFFECT_RAINBOW_MOOD
-    #define RGBLIGHT_EFFECT_RAINBOW_SWIRL
-    #define RGBLIGHT_EFFECT_SNAKE
+  #define RGBLIGHT_EFFECT_BREATHING
+  #define RGBLIGHT_EFFECT_RAINBOW_MOOD
+  #define RGBLIGHT_EFFECT_RAINBOW_SWIRL
+  #define RGBLIGHT_EFFECT_SNAKE
 //  #define RGBLIGHT_EFFECT_KNIGHT
 //  #define RGBLIGHT_EFFECT_CHRISTMAS
 //  #define RGBLIGHT_EFFECT_STATIC_GRADIENT
@@ -99,20 +83,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //  #define RGBLIGHT_EFFECT_ALTERNATING
 /*== customize breathing effect ==*/
   /*==== (DEFAULT) use fixed table instead of exp() and sin() ====*/
-    #define RGBLIGHT_BREATHE_TABLE_SIZE 256      // 256(default) or 128 or 64
+  #define RGBLIGHT_BREATHE_TABLE_SIZE 256      // 256(default) or 128 or 64
   /*==== use exp() and sin() ====*/
-    #define RGBLIGHT_EFFECT_BREATHE_CENTER 2     // 1 to 2.7
-    #define RGBLIGHT_EFFECT_BREATHE_MAX    255   // 0 to 255
+  #define RGBLIGHT_EFFECT_BREATHE_CENTER 2     // 1 to 2.7
+  #define RGBLIGHT_EFFECT_BREATHE_MAX    255   // 0 to 255
 /*== customize snake effect ==*/
-    #define RGBLIGHT_EFFECT_SNAKE_LENGTH RGBLED_NUM
+  #define RGBLIGHT_EFFECT_SNAKE_LENGTH RGBLED_NUM
 /*== customize knight effect ==*/
-    #define RGBLIGHT_EFFECT_KNIGHT_LENGTH 6
-  #endif
+  #define RGBLIGHT_EFFECT_KNIGHT_LENGTH 6
 #endif
 
 /* Audio */
 #ifdef AUDIO_ENABLE
-  #define B6_AUDIO
+  #define B5_AUDIO
   #define STARTUP_SONG SONG(STARTUP_SOUND)
   #define AUDIO_CLICKY
   #define AUDIO_CLUCKY_FREQ_MAX 220.0f
@@ -181,7 +164,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* key combination for magic key command */
 /* defined by default; to change, uncomment and set to the combination you want */
-// #define IS_COMMAND() (get_mods() == (MOD_BIT(KC_LSHIFT) | MOD_BIT(KC_RSHIFT)))
+// #define IS_COMMAND() (get_mods() == MOD_MASK_SHIFT)
 
 /* control how magic key switches layers */
 //#define MAGIC_KEY_SWITCH_LAYER_WITH_FKEYS  true

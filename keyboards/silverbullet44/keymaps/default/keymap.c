@@ -43,7 +43,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* QWERTY
  * ,-----------------------------------------.                                  ,-----------------------------------------.
- * | Tab  |   Q  |   W  |   E  |   R  |   T  |                                  |   Y  |   U  |   I  |   O  |   P  |  =   |
+ * |TabMOS|   Q  |   W  |   E  |   R  |   T  |                                  |   Y  |   U  |   I  |   O  |   P  |  =   |
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
  * |Shift |   A  |   S  |   D  |   F  |   G  |                                  |   H  |   J  |   K  |   L  |   ;  |  '   |
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
@@ -110,14 +110,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                          |Click |Click |/ Click /       /       \       \      \ |      |      |
  *                          `-----------------------------'         '-----------------------------'
 */
-#ifdef MOUSEKEY_ENABLE
- [_MOUSE] = LAYOUT( \
-  _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_WH_L, KC_WH_R, KC_MS_U, XXXXXXX, XXXXXXX, _______, \
-  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_WH_U, KC_MS_L, KC_MS_D, KC_MS_R, XXXXXXX, XXXXXXX, \
-  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_WH_D, KC_ACL0, KC_ACL1, KC_ACL2, XXXXXXX, XXXXXXX, \
-                             KC_BTN1, KC_BTN2, KC_BTN3, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX \
-  ),
-#endif
 /*   ADJUST
  * ,-----------------------------------------.                                  ,-----------------------------------------.
  * |      |      |      |FrqRst|      |      |                                  |      |      |      |      |      |      |
