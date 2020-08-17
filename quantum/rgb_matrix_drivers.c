@@ -23,7 +23,7 @@
  * be here if shared between boards.
  */
 
-#if defined(IS31FL3731) || defined(IS31FL3733) || defined(IS31FL3737) || defined(IS31FL3741) 
+#if defined(IS31FL3731) || defined(IS31FL3733) || defined(IS31FL3737) || defined(IS31FL3741)
 
 #    include "i2c_master.h"
 
@@ -100,9 +100,7 @@ const rgb_matrix_driver_t rgb_matrix_driver = {
     .set_color_all = IS31FL3737_set_color_all,
 };
 #    else
-static void flush(void) {
-    IS31FL3741_update_pwm_buffers(DRIVER_ADDR_1, DRIVER_ADDR_2);
-}
+static void flush(void) { IS31FL3741_update_pwm_buffers(DRIVER_ADDR_1, DRIVER_ADDR_2); }
 
 const rgb_matrix_driver_t rgb_matrix_driver = {
     .init = init,
@@ -130,7 +128,7 @@ static inline void setled(int i, uint8_t r, uint8_t g, uint8_t b) {
     rgb_matrix_ws2812_array[i].g = g;
     rgb_matrix_ws2812_array[i].b = b;
 #    ifdef RGBW
-    convert_rgb_to_rgbw(rgb_matrix_ws2812_array[i]);
+    convert_rgb_to_rgbw(&rgb_matrix_ws2812_array[i]);
 #    endif
 }
 

@@ -24,7 +24,6 @@
 #include "i2c_master.h"
 #include "progmem.h"
 
-
 // This is a 7-bit address, that gets left-shifted and bit 0
 // set to 0 for write, 1 for read (as per I2C protocol)
 // The address will vary depending on your wiring:
@@ -178,9 +177,9 @@ void IS31FL3741_init(uint8_t addr) {
     // Set Pull up & Down for SWx CSy
     IS31FL3741_write_register(addr, ISSI_REG_PULLDOWNUP, 0x77);
 
-// IS31FL3741_update_led_scaling_registers(addr, 0xFF, 0xFF, 0xFF);
+    // IS31FL3741_update_led_scaling_registers(addr, 0xFF, 0xFF, 0xFF);
 
-// Wait 10ms to ensure the device has woken up.
+    // Wait 10ms to ensure the device has woken up.
     wait_ms(10);
 }
 
@@ -273,6 +272,8 @@ void IS31FL3741_update_led_control_registers(uint8_t addr, uint8_t index) {
         for (int i = 0; i < 171; ++i) {
             IS31FL3741_write_register(addr, i, g_scaling_registers[0][180 + i]);
         }
+
+        g_scaling_registers_update_required[index] = false;
     }
 }
 
