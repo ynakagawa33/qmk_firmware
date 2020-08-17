@@ -1,3 +1,5 @@
-SRC += rev1/matrix.c
-SRC += rev1/split_util.c
-SRC += rev1/split_scomm.c
+SRC += 	matrix.c \
+		split_util.c \
+		split_scomm.c
+
+LAYOUTS = split_3x5_3 split_3x6_3

@@ -20,9 +20,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "config_common.h"
 
 /* USB Device descriptor parameter */
-#define VENDOR_ID       0xFEED
-#define PRODUCT_ID      0x6060
-#define DEVICE_VER      0x0003
+#define VENDOR_ID       0x544B // "TK"
+#define PRODUCT_ID      0x0004
+#define DEVICE_VER      0x0001
 #define MANUFACTURER    The Key Company
 #define PRODUCT         M0lly
 #define DESCRIPTION     QMK keyboard firmware for M0lly
@@ -60,12 +60,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#define MATRIX_HAS_GHOST
 
 /* Set 0 if debouncing isn't needed */
-#define DEBOUNCING_DELAY 5
+#define DEBOUNCE 5
 
 /* Mechanical locking support. Use KC_LCAP, KC_LNUM or KC_LSCR instead in keymap */
 #define LOCKING_SUPPORT_ENABLE
 /* Locking resynchronize hack */
 #define LOCKING_RESYNC_ENABLE
+
+#define QMK_ESC_OUTPUT A0 // usually COL
+#define QMK_ESC_INPUT F4 // usually ROW
+#define QMK_LED D2 // NumLock on M0lly
+//#define QMK_SPEAKER C6
 
 /*
  * Force NKRO
