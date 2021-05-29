@@ -61,7 +61,7 @@ extern keymap_config_t keymap_config;
 #endif
 
 #ifdef AUDIO_ENABLE
-#    include <audio.h>
+#    include "audio.h"
 #endif
 
 #ifdef BLUETOOTH_ENABLE
@@ -69,7 +69,7 @@ extern keymap_config_t keymap_config;
 #    ifdef MODULE_ADAFRUIT_BLE
 #        include "adafruit_ble.h"
 #    else
-#        include "bluetooth.h"
+#        include "../serial.h"
 #    endif
 #endif
 
@@ -84,6 +84,50 @@ extern keymap_config_t keymap_config;
 #ifdef RAW_ENABLE
 #    include "raw_hid.h"
 #endif
+
+#ifdef JOYSTICK_ENABLE
+#    include "joystick.h"
+#endif
+
+// https://cdn.sparkfun.com/datasheets/Wireless/Bluetooth/bluetooth_cr_UG-v1.0r.pdf#G7.663734
+static inline uint16_t CONSUMER2RN42(uint16_t usage) {
+    switch (usage) {
+        case AC_HOME:
+            return 0x0001;
+        case AL_EMAIL:
+            return 0x0002;
+        case AC_SEARCH:
+            return 0x0004;
+        case AL_KEYBOARD_LAYOUT:
+            return 0x0008;
+        case AUDIO_VOL_UP:
+            return 0x0010;
+        case AUDIO_VOL_DOWN:
+            return 0x0020;
+        case AUDIO_MUTE:
+            return 0x0040;
+        case TRANSPORT_PLAY_PAUSE:
+            return 0x0080;
+        case TRANSPORT_NEXT_TRACK:
+            return 0x0100;
+        case TRANSPORT_PREV_TRACK:
+            return 0x0200;
+        case TRANSPORT_STOP:
+            return 0x0400;
+        case TRANSPORT_EJECT:
+            return 0x0800;
+        case TRANSPORT_FAST_FORWARD:
+            return 0x1000;
+        case TRANSPORT_REWIND:
+            return 0x2000;
+        case TRANSPORT_STOP_EJECT:
+            return 0x4000;
+        case AL_LOCAL_BROWSER:
+            return 0x8000;
+        default:
+            return 0;
+    }
+}
 
 uint8_t keyboard_idle = 0;
 /* 0: Boot Protocol, 1: Report Protocol(default) */
@@ -264,6 +308,70 @@ static void Console_Task(void) {
 #endif
 
 /*******************************************************************************
+ * Joystick
+ ******************************************************************************/
+#ifdef JOYSTICK_ENABLE
+void send_joystick_packet(joystick_t *joystick) {
+    uint8_t timeout = 255;
+
+    joystick_report_t r = {
+#    if JOYSTICK_AXES_COUNT > 0
+        .axes =
+            {
+                joystick->axes[0],
+
+#        if JOYSTICK_AXES_COUNT >= 2
+                joystick->axes[1],
+#        endif
+#        if JOYSTICK_AXES_COUNT >= 3
+                joystick->axes[2],
+#        endif
+#        if JOYSTICK_AXES_COUNT >= 4
+                joystick->axes[3],
+#        endif
+#        if JOYSTICK_AXES_COUNT >= 5
+                joystick->axes[4],
+#        endif
+#        if JOYSTICK_AXES_COUNT >= 6
+                joystick->axes[5],
+#        endif
+            },
+#    endif  // JOYSTICK_AXES_COUNT>0
+
+#    if JOYSTICK_BUTTON_COUNT > 0
+        .buttons =
+            {
+                joystick->buttons[0],
+
+#        if JOYSTICK_BUTTON_COUNT > 8
+                joystick->buttons[1],
+#        endif
+#        if JOYSTICK_BUTTON_COUNT > 16
+                joystick->buttons[2],
+#        endif
+#        if JOYSTICK_BUTTON_COUNT > 24
+                joystick->buttons[3],
+#        endif
+            }
+#    endif  // JOYSTICK_BUTTON_COUNT>0
+    };
+
+    /* Select the Joystick Report Endpoint */
+    Endpoint_SelectEndpoint(JOYSTICK_IN_EPNUM);
+
+    /* Check if write ready for a polling interval around 10ms */
+    while (timeout-- && !Endpoint_IsReadWriteAllowed()) _delay_us(40);
+    if (!Endpoint_IsReadWriteAllowed()) return;
+
+    /* Write Joystick Report Data */
+    Endpoint_Write_Stream_LE(&r, sizeof(joystick_report_t), NULL);
+
+    /* Finalize the stream transfer to send the last packet */
+    Endpoint_ClearIN();
+}
+#endif
+
+/*******************************************************************************
  * USB Events
  ******************************************************************************/
 /*
@@ -327,7 +435,9 @@ void EVENT_USB_Device_Suspend() {
  */
 void EVENT_USB_Device_WakeUp() {
     print("[W]");
+#if defined(NO_USB_STARTUP_CHECK)
     suspend_wakeup_init();
+#endif
 
 #ifdef SLEEP_LED_ENABLE
     sleep_led_disable();
@@ -410,6 +520,11 @@ void EVENT_USB_Device_ConfigurationChanged(void) {
     ConfigSuccess &= Endpoint_ConfigureEndpoint((CDC_NOTIFICATION_EPNUM | ENDPOINT_DIR_IN), EP_TYPE_INTERRUPT, CDC_NOTIFICATION_EPSIZE, 1);
     ConfigSuccess &= Endpoint_ConfigureEndpoint((CDC_OUT_EPNUM | ENDPOINT_DIR_OUT), EP_TYPE_BULK, CDC_EPSIZE, 1);
     ConfigSuccess &= Endpoint_ConfigureEndpoint((CDC_IN_EPNUM | ENDPOINT_DIR_IN), EP_TYPE_BULK, CDC_EPSIZE, 1);
+#endif
+
+#ifdef JOYSTICK_ENABLE
+    /* Setup joystick endpoint */
+    ConfigSuccess &= Endpoint_ConfigureEndpoint((JOYSTICK_IN_EPNUM | ENDPOINT_DIR_IN), EP_TYPE_INTERRUPT, JOYSTICK_EPSIZE, 1);
 #endif
 }
 
@@ -556,31 +671,19 @@ static void send_keyboard(report_keyboard_t *report) {
     uint8_t timeout = 255;
 
 #ifdef BLUETOOTH_ENABLE
-    uint8_t where = where_to_send();
-
-    if (where == OUTPUT_BLUETOOTH || where == OUTPUT_USB_AND_BT) {
+    if (where_to_send() == OUTPUT_BLUETOOTH) {
 #    ifdef MODULE_ADAFRUIT_BLE
         adafruit_ble_send_keys(report->mods, report->keys, sizeof(report->keys));
 #    elif MODULE_RN42
-        bluefruit_serial_send(0xFD);
-        bluefruit_serial_send(0x09);
-        bluefruit_serial_send(0x01);
-        bluefruit_serial_send(report->mods);
-        bluefruit_serial_send(report->reserved);
+        serial_send(0xFD);
+        serial_send(0x09);
+        serial_send(0x01);
+        serial_send(report->mods);
+        serial_send(report->reserved);
         for (uint8_t i = 0; i < KEYBOARD_REPORT_KEYS; i++) {
-            bluefruit_serial_send(report->keys[i]);
-        }
-#    else
-        bluefruit_serial_send(0xFD);
-        bluefruit_serial_send(report->mods);
-        bluefruit_serial_send(report->reserved);
-        for (uint8_t i = 0; i < KEYBOARD_REPORT_KEYS; i++) {
-            bluefruit_serial_send(report->keys[i]);
+            serial_send(report->keys[i]);
         }
 #    endif
-    }
-
-    if (where != OUTPUT_USB && where != OUTPUT_USB_AND_BT) {
         return;
     }
 #endif
@@ -621,26 +724,21 @@ static void send_mouse(report_mouse_t *report) {
     uint8_t timeout = 255;
 
 #    ifdef BLUETOOTH_ENABLE
-    uint8_t where = where_to_send();
-
-    if (where == OUTPUT_BLUETOOTH || where == OUTPUT_USB_AND_BT) {
+    if (where_to_send() == OUTPUT_BLUETOOTH) {
 #        ifdef MODULE_ADAFRUIT_BLE
         // FIXME: mouse buttons
         adafruit_ble_send_mouse_move(report->x, report->y, report->v, report->h, report->buttons);
 #        else
-        bluefruit_serial_send(0xFD);
-        bluefruit_serial_send(0x00);
-        bluefruit_serial_send(0x03);
-        bluefruit_serial_send(report->buttons);
-        bluefruit_serial_send(report->x);
-        bluefruit_serial_send(report->y);
-        bluefruit_serial_send(report->v);  // should try sending the wheel v here
-        bluefruit_serial_send(report->h);  // should try sending the wheel h here
-        bluefruit_serial_send(0x00);
+        serial_send(0xFD);
+        serial_send(0x00);
+        serial_send(0x03);
+        serial_send(report->buttons);
+        serial_send(report->x);
+        serial_send(report->y);
+        serial_send(report->v);  // should try sending the wheel v here
+        serial_send(report->h);  // should try sending the wheel h here
+        serial_send(0x00);
 #        endif
-    }
-
-    if (where != OUTPUT_USB && where != OUTPUT_USB_AND_BT) {
         return;
     }
 #    endif
@@ -699,39 +797,20 @@ static void send_system(uint16_t data) {
 static void send_consumer(uint16_t data) {
 #ifdef EXTRAKEY_ENABLE
 #    ifdef BLUETOOTH_ENABLE
-    uint8_t where = where_to_send();
-
-    if (where == OUTPUT_BLUETOOTH || where == OUTPUT_USB_AND_BT) {
+    if (where_to_send() == OUTPUT_BLUETOOTH) {
 #        ifdef MODULE_ADAFRUIT_BLE
-        adafruit_ble_send_consumer_key(data, 0);
+        adafruit_ble_send_consumer_key(data);
 #        elif MODULE_RN42
         static uint16_t last_data = 0;
         if (data == last_data) return;
         last_data       = data;
         uint16_t bitmap = CONSUMER2RN42(data);
-        bluefruit_serial_send(0xFD);
-        bluefruit_serial_send(0x03);
-        bluefruit_serial_send(0x03);
-        bluefruit_serial_send(bitmap & 0xFF);
-        bluefruit_serial_send((bitmap >> 8) & 0xFF);
-#        else
-        static uint16_t last_data = 0;
-        if (data == last_data) return;
-        last_data       = data;
-        uint16_t bitmap = CONSUMER2BLUEFRUIT(data);
-        bluefruit_serial_send(0xFD);
-        bluefruit_serial_send(0x00);
-        bluefruit_serial_send(0x02);
-        bluefruit_serial_send(bitmap & 0xFF);
-        bluefruit_serial_send((bitmap >> 8) & 0xFF);
-        bluefruit_serial_send(0x00);
-        bluefruit_serial_send(0x00);
-        bluefruit_serial_send(0x00);
-        bluefruit_serial_send(0x00);
+        serial_send(0xFD);
+        serial_send(0x03);
+        serial_send(0x03);
+        serial_send(bitmap & 0xFF);
+        serial_send((bitmap >> 8) & 0xFF);
 #        endif
-    }
-
-    if (where != OUTPUT_USB && where != OUTPUT_USB_AND_BT) {
         return;
     }
 #    endif
@@ -750,9 +829,10 @@ static void send_consumer(uint16_t data) {
  * FIXME: Needs doc
  */
 int8_t sendchar(uint8_t c) {
-    // Not wait once timeouted.
+    // Do not wait if the previous write has timed_out.
     // Because sendchar() is called so many times, waiting each call causes big lag.
-    static bool timeouted = false;
+    // The `timed_out` state is an approximation of the ideal `is_listener_disconnected?` state.
+    static bool timed_out = false;
 
     // prevents Console_Task() from running during sendchar() runs.
     // or char will be lost. These two function is mutually exclusive.
@@ -766,11 +846,11 @@ int8_t sendchar(uint8_t c) {
         goto ERROR_EXIT;
     }
 
-    if (timeouted && !Endpoint_IsReadWriteAllowed()) {
+    if (timed_out && !Endpoint_IsReadWriteAllowed()) {
         goto ERROR_EXIT;
     }
 
-    timeouted = false;
+    timed_out = false;
 
     uint8_t timeout = SEND_TIMEOUT;
     while (!Endpoint_IsReadWriteAllowed()) {
@@ -781,7 +861,7 @@ int8_t sendchar(uint8_t c) {
             goto ERROR_EXIT;
         }
         if (!(timeout--)) {
-            timeouted = true;
+            timed_out = true;
             goto ERROR_EXIT;
         }
         _delay_ms(1);
@@ -931,7 +1011,6 @@ static void setup_usb(void) {
 
     // for Console_Task
     USB_Device_EnableSOFEvents();
-    print_set_sendchar(sendchar);
 }
 
 /** \brief Main
@@ -949,7 +1028,7 @@ int main(void) {
     setup_usb();
     sei();
 
-#if defined(MODULE_ADAFRUIT_EZKEY) || defined(MODULE_RN42)
+#if defined(MODULE_RN42)
     serial_init();
 #endif
 
@@ -981,12 +1060,26 @@ int main(void) {
     print("Keyboard start.\n");
     while (1) {
 #if !defined(NO_USB_STARTUP_CHECK)
-        while (USB_DeviceState == DEVICE_STATE_Suspended) {
+        if (USB_DeviceState == DEVICE_STATE_Suspended) {
             print("[s]");
-            suspend_power_down();
-            if (USB_Device_RemoteWakeupEnabled && suspend_wakeup_condition()) {
-                USB_Device_SendRemoteWakeup();
+            while (USB_DeviceState == DEVICE_STATE_Suspended) {
+                suspend_power_down();
+                if (USB_Device_RemoteWakeupEnabled && suspend_wakeup_condition()) {
+                    USB_Device_SendRemoteWakeup();
+                    clear_keyboard();
+
+#    if USB_SUSPEND_WAKEUP_DELAY > 0
+                    // Some hubs, kvm switches, and monitors do
+                    // weird things, with USB device state bouncing
+                    // around wildly on wakeup, yielding race
+                    // conditions that can corrupt the keyboard state.
+                    //
+                    // Pause for a while to let things settle...
+                    wait_ms(USB_SUSPEND_WAKEUP_DELAY);
+#    endif
+                }
             }
+            suspend_wakeup_init();
         }
 #endif
 
@@ -1012,6 +1105,10 @@ int main(void) {
 #if !defined(INTERRUPT_CONTROL_ENDPOINT)
         USB_USBTask();
 #endif
+
+        // Run housekeeping
+        housekeeping_task_kb();
+        housekeeping_task_user();
     }
 }
 
