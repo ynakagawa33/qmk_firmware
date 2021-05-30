@@ -15,22 +15,16 @@ extern rgblight_config_t rgblight_config;
 
 extern uint8_t is_master;
 
-// Each layer gets a name for readability, which is then used in the keymap matrix below.
-// The underscores don't mean anything - you can have a layer called STUFF or any other name.
-// Layer names don't all need to be of the same length, obviously, and you can also skip them
-// entirely and just use numbers.
-#define _QWERTY 0
-#define _LOWER 1
-#define _RAISE 2
-#define _ADJUST 3
+// Defines names for use in layer keycodes and the keymap
+enum layer_names {
+  _QWERTY,
+  _LOWER,
+  _RAISE,
+  _ADJUST
+};
 
 enum custom_keycodes {
-  QWERTY = SAFE_RANGE,
-  LOWER,
-  RAISE,
-  ADJUST,
-  RGBRST,
-  CK_KHKR,
+  CK_KHKR = SAFE_RANGE,
   CK_EMHS
 };
 
@@ -59,45 +53,45 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* LOWER
  * ,-----------------------------------------.                                  ,-----------------------------------------.
- * |      |      |      |      |      |      |                                  |      |      |      |      |      |      |
+ * | Esc  |  F1  |  F2  |  F3  |  F4  |  F5  |                                  |  F6  |  F7  |  F8  |  F9  | F10  | F11  |
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
- * | LAlt |      |      |GUI(↑)|      |      |                                  |PageUP| Home |   ↑  | End  | PSCR |      |
+ * | LAlt |      |      |CAG(↑)|      |CAG( )|                                  |PageUP| Home |   ↑  | End  | PSCR |      |
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
- * |LShift|      |GUI(←)|GUI(↓)|GUI(→)|      |                                  |PageDN|   ←  |   ↓  |   →  | Pause|Insert|
+ * |LShift|      |CAG(←)|CAG(↓)|CAG(→)|      |                                  |PageDN|   ←  |   ↓  |   →  | Pause|Insert|
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
- * |LCtrl |      |      |      |      |      |-------.-------.  ,---------------|      |      |      |      |      |      |
+ * |LCtrl |CAG(1)|CAG(2)|CAG(3)|CAG(4)|      |-------.-------.  ,---------------|      |      |      |      |      | F12  |
  * `-----------------------------------------/       /       /   \       \       \----------------------------------------'
  *                          |      | LGUI | /-------/  SPCL /     \ ENTA  \-------\  | Bksp |      |
  *                          |      |      |/  EMHS /       /       \       \ KHKR  \ |      |      |
  *                          `-----------------------------'         '------------------------------'
  */
  [_LOWER] = LAYOUT( \
-  XXXXXXX, XXXXXXX,    XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,                                      XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
-  KC_LALT, XXXXXXX,    XXXXXXX,       LGUI(KC_UP),   XXXXXXX,       XXXXXXX,                                      KC_PGUP, KC_HOME,    KC_UP,   KC_END,  KC_PSCR, XXXXXXX, \
-  KC_LSFT, XXXXXXX,    LGUI(KC_LEFT), LGUI(KC_DOWN), LGUI(KC_RGHT), XXXXXXX,                                      KC_PGDN, KC_LEFT,    KC_DOWN, KC_RGHT, KC_PAUS, KC_INS, \
-  KC_LCTL, XXXXXXX,    XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX, XXXXXXX, _______, _______,  XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
+  KC_ESC,  KC_F1,      KC_F2,         KC_F3,         KC_F4,         KC_F5,                                        KC_F6,   KC_F7,      KC_F8,   KC_F9,   KC_F10,  KC_F11, \
+  KC_LALT, XXXXXXX,    XXXXXXX,       LCAG(KC_UP),   XXXXXXX,       LCAG(KC_SPC),                                 KC_PGUP, KC_HOME,    KC_UP,   KC_END,  KC_PSCR, XXXXXXX, \
+  KC_LSFT, XXXXXXX,    LCAG(KC_LEFT), LCAG(KC_DOWN), LCAG(KC_RGHT), XXXXXXX,                                      KC_PGDN, KC_LEFT,    KC_DOWN, KC_RGHT, KC_PAUS, KC_INS, \
+  KC_LCTL, LCAG(KC_1), LCAG(KC_2),    LCAG(KC_3),    LCAG(KC_4),    XXXXXXX, XXXXXXX, _______, _______,  XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, KC_F12, \
                                       XXXXXXX,       _______,       _______,                            _______,  _______, XXXXXXX\
   ),
 
 /* RAISE
  * ,-----------------------------------------.                                  ,-----------------------------------------.
- * |      |      |      |      |      |      |                                  |      |      |      |      |      |      |
+ * | Esc  |  F1  |  F2  |  F3  |  F4  |  F5  |                                  |  F6  |  F7  |  F8  |  F9  | F10  | F11  |
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
  * |LAlt  |      | MACL0| MACL1| MACL2|      |                                  | MWHU | MWHL | MSU  | MWHR |      |      |
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
  * |LShift|      | MBTNR| MBTNM| MBTNL|      |                                  | MWHD | MSL  | MSD  | MSR  |      |      |
  * |------+------+------+------+------+------|                                  |------+------+------+------+------+------|
- * |LCtrl |   Z  |   X  |   C  |   V  |      |-------.-------.  ,---------------|      |      |      |      |      |      |
+ * |LCtrl |   Z  |   X  |   C  |   V  |      |-------.-------.  ,---------------|      |      |      |      |      | F12  |
  * `-----------------------------------------/       /       /   \       \       \----------------------------------------'
  *                          |      | LGUI | /-------/  SPCL /     \ ENTA  \-------\  | Bksp |      |
  *                          |      |      |/  EMHS /       /       \       \  KHKR \ |      |      |
  *                          `-----------------------------'         '------------------------------'
  */
  [_RAISE] = LAYOUT( \
-  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,                                     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
+  KC_ESC,  KC_F1,   KC_F2,   KC_F3,   KC_F4,    KC_F5,                                       KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11, \
   KC_LALT, XXXXXXX, KC_ACL0, KC_ACL1, KC_ACL2,  XXXXXXX,                                     KC_WH_U, KC_WH_L, KC_MS_U, KC_WH_R, XXXXXXX, XXXXXXX, \
   KC_LSFT, XXXXXXX, KC_BTN2, KC_BTN3, KC_BTN1,  XXXXXXX,                                     KC_WH_D, KC_MS_L, KC_MS_D, KC_MS_R, XXXXXXX, XXXXXXX, \
-  KC_LCTL, _______, _______, _______, _______,  XXXXXXX, XXXXXXX, _______, _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
+  KC_LCTL, _______, _______, _______, _______,  XXXXXXX, XXXXXXX, _______, _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_F12, \
                                       XXXXXXX,  _______, _______,                   _______, _______, XXXXXXX \
   ),
 
@@ -287,55 +281,6 @@ static uint16_t shift_pressed_time = 0;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
-    case QWERTY:
-      if (record->event.pressed) {
-        persistent_default_layer_set(1UL<<_QWERTY);
-      }
-      return false;
-      break;
-    case LOWER:
-      if (record->event.pressed) {
-        layer_on(_LOWER);
-      } else {
-        layer_off(_LOWER);
-      }
-      return false;
-      break;
-    case RAISE:
-      if (record->event.pressed) {
-        layer_on(_RAISE);
-      } else {
-        layer_off(_RAISE);
-      }
-      return false;
-      break;
-    case ADJUST:
-        if (record->event.pressed) {
-          layer_on(_ADJUST);
-        } else {
-          layer_off(_ADJUST);
-        }
-        return false;
-        break;
-    case RGB_MOD:
-      #ifdef RGBLIGHT_ENABLE
-        if (record->event.pressed) {
-          rgblight_mode(RGB_current_mode);
-          rgblight_step();
-          RGB_current_mode = rgblight_config.mode;
-        }
-      #endif
-      return false;
-      break;
-    case RGBRST:
-      #ifdef RGBLIGHT_ENABLE
-        if (record->event.pressed) {
-          eeconfig_update_rgblight_default();
-          rgblight_enable();
-          RGB_current_mode = rgblight_config.mode;
-        }
-      #endif
-      break;
     case CK_KHKR:
       if (record->event.pressed) {
         raise_pressed = true;
