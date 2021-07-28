@@ -66,10 +66,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                          `-----------------------------'         '------------------------------'
  */
  [_LOWER] = LAYOUT( \
-  KC_ESC,  KC_F1,      KC_F2,         KC_F3,         KC_F4,         KC_F5,                                        KC_F6,   KC_F7,      KC_F8,   KC_F9,   KC_F10,  KC_F11, \
-  KC_LALT, XXXXXXX,    XXXXXXX,       LCAG(KC_UP),   XXXXXXX,       LCAG(KC_SPC),                                 KC_PGUP, KC_HOME,    KC_UP,   KC_END,  KC_PSCR, XXXXXXX, \
-  KC_LSFT, XXXXXXX,    LCAG(KC_LEFT), LCAG(KC_DOWN), LCAG(KC_RGHT), XXXXXXX,                                      KC_PGDN, KC_LEFT,    KC_DOWN, KC_RGHT, KC_PAUS, KC_INS, \
-  KC_LCTL, LCAG(KC_1), LCAG(KC_2),    LCAG(KC_3),    LCAG(KC_4),    XXXXXXX, XXXXXXX, _______, _______,  XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, KC_F12, \
+  KC_ESC,  KC_F1,      KC_F2,         KC_F3,         KC_F4,      KC_F5,                                        KC_F6,   KC_F7,      KC_F8,   KC_F9,   KC_F10,  KC_F11, \
+  KC_LALT, XXXXXXX,    LCAG(KC_W),    LCAG(KC_M),    LCAG(KC_R), LCAG(KC_SPC),                                 KC_PGUP, KC_HOME,    KC_UP,   KC_END,  KC_PSCR, XXXXXXX, \
+  KC_LSFT, XXXXXXX,    LCAG(KC_S),    LCAG(KC_D),    LCAG(KC_F), XXXXXXX,                                      KC_PGDN, KC_LEFT,    KC_DOWN, KC_RGHT, KC_PAUS, KC_INS, \
+  KC_LCTL, LCAG(KC_1), LCAG(KC_2),    LCAG(KC_3),    LCAG(KC_4), LCAG(KC_C), XXXXXXX, _______, _______,  XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, KC_F12, \
                                       XXXXXXX,       _______,       _______,                            _______,  _______, XXXXXXX\
   ),
 
