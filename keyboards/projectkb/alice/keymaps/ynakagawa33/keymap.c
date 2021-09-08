@@ -36,7 +36,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
              KC_LCTL,          KC_LGUI, CK_EMHS,  LT(_LOWER, KC_SPC),                          CK_KHKR,           KC_BSPC,          KC_RCTL
   ),
 
-  [_LOWER] = LAYOUT_alice_split_bs(
+  [_RAISE] = LAYOUT_alice_split_bs(
     _______,  _______, KC_F1,  KC_F2,  KC_F3,      KC_F4,  KC_F5,        KC_F6,        KC_F7,  KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  _______, _______,
     _______, KC_LALT, XXXXXXX,XXXXXXX,LGUI(KC_UP),XXXXXXX,XXXXXXX,                    KC_PGUP, KC_HOME, KC_UP,   KC_END,  KC_PSCR, XXXXXXX, XXXXXXX, XXXXXXX,
     _______, KC_LSFT, XXXXXXX,LGUI(KC_LEFT),LGUI(KC_DOWN),LGUI(KC_RGHT),XXXXXXX,      KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, KC_PAUS, KC_INS,           _______,
@@ -44,7 +44,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
              _______,          _______, _______, _______,                          _______,           _______,          _______
   ),
 
-  [_RAISE] = LAYOUT_alice_split_bs(
+  [_LOWER] = LAYOUT_alice_split_bs(
     _______,  _______, KC_F1,  KC_F2,  KC_F3,      KC_F4,  KC_F5,        KC_F6,        KC_F7,  KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  _______, _______,
     _______, KC_LALT, XXXXXXX, KC_ACL0, KC_ACL1, KC_ACL2, XXXXXXX,             KC_WH_U, KC_WH_L, KC_MS_U, KC_WH_R, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
     _______, KC_LSFT, XXXXXXX, KC_BTN2, KC_BTN3, KC_BTN1, XXXXXXX,             KC_WH_D, KC_MS_L, KC_MS_D, KC_MS_R, XXXXXXX, XXXXXXX,          _______,
