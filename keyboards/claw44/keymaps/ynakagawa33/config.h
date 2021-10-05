@@ -28,14 +28,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // #define MASTER_RIGHT
 // #define EE_HANDS
 
-#define SSD1306OLED
-
-#define USE_SERIAL_PD2
-
 #define MOUSEKEY_DELAY             0
 #define MOUSEKEY_INTERVAL          10
 #define MOUSEKEY_MAX_SPEED         5
 #define MOUSEKEY_TIME_TO_MAX       30
+#define MOUSEKEY_WHEEL_DELAY       0
+#define MOUSEKEY_WHEEL_INTERVAL    10
 #define MOUSEKEY_WHEEL_MAX_SPEED   1
 #define MOUSEKEY_WHEEL_TIME_TO_MAX 40
 
