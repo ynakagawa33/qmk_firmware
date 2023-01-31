@@ -46,10 +46,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
   [_RAISE] = LAYOUT_alice_split_bs(
-    _______,  _______, KC_F1,    KC_F2,     KC_F3,     KC_F4,     KC_F5,     KC_F6,     KC_F7,  KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  _______, _______,
-    _______, KC_LALT, XXXXXXX,   LCAG(KC_W),LCAG(KC_M),LCAG(KC_R),LCAG(KC_SPC),         KC_PGUP, KC_HOME, KC_UP,   KC_END,  KC_PSCR, XXXXXXX, XXXXXXX, XXXXXXX,
-    _______, KC_LSFT, XXXXXXX,   LCAG(KC_S),LCAG(KC_D),LCAG(KC_F),XXXXXXX,              KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, KC_PAUS, KC_INS,           _______,
-             KC_LCTL, LCAG(KC_1),LCAG(KC_2),LCAG(KC_3),LCAG(KC_4),LCAG(KC_C),         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______, _______,
+    _______,  _______, KC_F1,        KC_F2,     KC_F3,     KC_F4,     KC_F5,     KC_F6,     KC_F7,  KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  _______, _______,
+    _______, KC_LALT, XXXXXXX,       LCAG(KC_W),LCAG(KC_M),LCAG(KC_R),LCAG(KC_SPC),         KC_PGUP, KC_HOME, KC_UP,   KC_END,  KC_PSCR, XXXXXXX, XXXXXXX, XXXXXXX,
+    _______, KC_LSFT, LCAG(XXXXXXX), LCAG(KC_S),LCAG(KC_D),LCAG(KC_F),XXXXXXX,              KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, KC_PAUS, KC_INS,           _______,
+             KC_LCTL, LCAG(KC_1),    LCAG(KC_2),LCAG(KC_3),LCAG(KC_4),LCAG(KC_C),         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______, _______,
              _______,          _______, _______, _______,                          _______,           _______,          _______
   ),
 
