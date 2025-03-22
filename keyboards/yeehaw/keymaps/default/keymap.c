@@ -29,28 +29,29 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
          KC_MPRV, YEEHAW, KC_UP, SQUASHKB,
  MO(1), KC_MNXT, KC_LEFT, KC_DOWN, KC_RIGHT,
         KC_MPLY, LCTL(KC_S),
-             RGB_TOG
+             UG_TOGG
     ),
 
      [1] = LAYOUT(
-        RGB_HUI,
-        RGB_HUD,
-        RGB_SAI, RGB_VAI, RGB_VAD, RGB_SPI,
-KC_TRNS, RGB_SAD, RGB_M_P, RGB_MOD, RGB_SPD,
+        UG_HUEU,
+        UG_HUED,
+        UG_SATU, UG_VALU, UG_VALD, UG_SPDU,
+KC_TRNS, UG_SATD, RGB_M_P, UG_NEXT, UG_SPDD,
         KC_TRNS, KC_TRNS,
-             RESET
+             QK_BOOT
     ),
 
 };
 
-void encoder_update_user(uint8_t index, bool clockwise) {
+bool encoder_update_user(uint8_t index, bool clockwise) {
     if (index == 0) { /* First encoder */
         if (clockwise) {
-            tap_code(KC_VOLD);
-        } else {
             tap_code(KC_VOLU);
+        } else {
+            tap_code(KC_VOLD);
         }
     }
+    return true;
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -63,7 +64,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     case SQUASHKB:
         if (record->event.pressed) {
-            SEND_STRING("http://squashkb.com");
+            SEND_STRING("https://squashkb.com");
         }
         break;
     }
